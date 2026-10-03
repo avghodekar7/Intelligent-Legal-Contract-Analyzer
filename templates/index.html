@@ -1,0 +1,2837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LexiNLP | Intelligent Legal Contract Analyzer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* =====================================================
+           MAIN FEATURE TABS
+           ===================================================== */
+        
+        .hidden {
+            display: none !important;
+        }
+
+        .input-panel.hidden {
+            display: none !important;
+        }
+
+        .feature-tabs {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            display: flex;
+            justify-content: center;
+            gap: 0;
+
+            margin: 0;
+            padding: 0;
+
+            background: #ffffff;
+            border-top: 1px solid var(--border, #deded9);
+            border-bottom: none;
+
+            z-index: 1000;
+        }
+
+        body {
+            padding-bottom: 72px;
+        }
+
+        .feature-tab {
+            border: 0;
+            border-bottom: 2px solid transparent;
+            background: transparent;
+            padding: 14px 22px;
+            font-family: "DM Sans", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--text-light, #5f6873);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .feature-tab:hover {
+            color: var(--navy, #172536);
+        }
+
+        .feature-tab.active {
+            color: var(--navy, #172536);
+            border-bottom-color: var(--gold, #b38a48);
+        }
+
+        .feature-tab-panel {
+            display: none;
+        }
+
+        .feature-tab-panel.active {
+            display: block;
+        }
+
+        .simplify-result {
+            margin-top: 28px;
+        }
+
+        .simplify-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .feature-tabs {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .feature-tab {
+                flex: 1 0 auto;
+                padding: 13px 15px;
+                white-space: nowrap;
+            }
+        }
+
+        .comparison-workspace {
+            margin-top: 32px;
+            padding: 32px;
+            border: 1px solid var(--border, #deded9);
+            background: #fff;
+        }
+
+        .comparison-intro {
+            max-width: 720px;
+            margin-bottom: 26px;
+        }
+
+        .comparison-intro p {
+            margin: 8px 0 0;
+            color: var(--text-light, #5f6873);
+            line-height: 1.6;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .comparison-panel {
+            border: 1px solid var(--border, #deded9);
+            background: var(--cream, #f8f8f6);
+            padding: 20px;
+        }
+
+        .comparison-panel h4 {
+            margin: 0 0 14px;
+            font-size: 15px;
+            color: var(--text, #202733);
+        }
+
+        .comparison-panel textarea {
+            width: 100%;
+            min-height: 180px;
+            resize: vertical;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid var(--border-dark, #c8c9c4);
+            background: #fff;
+            color: var(--text, #202733);
+            font-family: "DM Sans", sans-serif;
+            line-height: 1.55;
+            outline: none;
+        }
+
+        .comparison-panel textarea:focus {
+            border-color: var(--gold, #b38a48);
+        }
+
+        .comparison-file {
+            display: block;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-light, #5f6873);
+        }
+
+        .comparison-file input {
+            display: block;
+            margin-top: 7px;
+            max-width: 100%;
+        }
+
+        .comparison-note {
+            margin-top: 9px;
+            font-size: 11px;
+            color: var(--muted, #89919a);
+        }
+
+        .comparison-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .comparison-result {
+            margin-top: 28px;
+            padding: 28px;
+            border-top: 1px solid var(--border, #deded9);
+            text-align: center;
+        }
+
+        .comparison-result .section-eyebrow {
+            margin-bottom: 8px;
+        }
+
+        .similarity-score {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(48px, 8vw, 78px);
+            line-height: 1;
+            color: var(--navy, #172536);
+            margin: 8px 0 12px;
+        }
+
+        .similarity-message {
+            margin: 0 auto;
+            max-width: 620px;
+            color: var(--text-light, #5f6873);
+            line-height: 1.6;
+        }
+
+        .comparison-bar {
+            max-width: 620px;
+            height: 8px;
+            margin: 22px auto 0;
+            background: var(--cream2, #f2f1ed);
+            overflow: hidden;
+        }
+
+        .comparison-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gold, #b38a48);
+        }
+
+        @media (max-width: 760px) {
+            .comparison-workspace {
+                padding: 22px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-actions {
+                justify-content: stretch;
+            }
+
+            .comparison-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body data-active-tab="{{ 'compare' if comparison else 'simplify' }}">
+
+<header class="navbar">
+
+    <div class="nav-inner">
+
+        <a href="/" class="brand">
+
+            <div class="brand-mark">
+                L
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    LexiNLP
+                </div>
+
+                <div class="brand-subtitle">
+                    Legal Contract Intelligence
+                </div>
+            </div>
+
+        </a>
+
+        <div class="nav-status">
+
+            <span class="status-dot"></span>
+
+            NLP Analysis Ready
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page-container">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-kicker">
+            LEGAL DOCUMENT ANALYSIS
+        </div>
+
+        <h1>
+            Read the language<br>
+            <em>behind the contract.</em>
+        </h1>
+
+        <p class="hero-description">
+            LexiNLP examines contracts through linguistic analysis,
+            legal clause detection and entity extraction — giving
+            you a structured view of the document without replacing
+            the original text.
+        </p>
+
+        <div class="hero-meta">
+
+            <div>
+                <strong>01</strong>
+                <span>English & Hindi</span>
+            </div>
+
+            <div>
+                <strong>02</strong>
+                <span>PDF & Text</span>
+            </div>
+
+            <div>
+                <strong>03</strong>
+                <span>Legal NLP</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FEATURE NAVIGATION
+         ===================================================== -->
+
+    <div class="feature-tabs" role="tablist" aria-label="LexiNLP features">
+
+        <button type="button" class="feature-tab active" data-tab="simplify" role="tab" aria-selected="true">
+            01 · SIMPLIFY CONTRACT
+        </button>
+
+        <button type="button" class="feature-tab" data-tab="analysis" role="tab" aria-selected="false">
+            02 · NLP ANALYSIS
+        </button>
+
+        <button type="button" class="feature-tab" data-tab="compare" role="tab" aria-selected="false">
+            03 · COMPARE CONTRACTS
+        </button>
+
+    </div>
+
+    <section class="feature-tab-panel active" id="simplifyTab" data-panel="simplify" role="tabpanel">
+
+    <!-- =====================================================
+         ANALYZER
+         ===================================================== -->
+
+    <section class="analyzer-card" id="analyzer">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="section-eyebrow">
+                    CONTRACT ANALYZER
+                </div>
+
+                <h2>
+                    Analyze a Legal Contract
+                </h2>
+
+                <p>
+                    Paste your contract or upload a PDF to begin analysis.
+                </p>
+
+            </div>
+
+            <div class="secure-badge">
+                <span>🔒</span>
+                Local Analysis
+            </div>
+
+        </div>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            id="contractForm"
+        >
+
+
+            <!-- =================================================
+                 LANGUAGE
+                 ================================================= -->
+
+            <div class="control-section">
+
+                <label class="control-label">
+                    Analysis Language
+                </label>
+
+                <div class="language-options">
+
+                    <label class="language-option">
+
+                        <input
+                            type="radio"
+                            name="language"
+                            value="english"
+                            {% if language == "english" or not language %}checked{% endif %}
+                        >
+
+                        <span class="language-box">
+
+                            <span class="language-icon">
+                                EN
+                            </span>
+
+                            <span>
+                                <strong>English</strong>
+                                <small>spaCy NLP</small>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+
+                    <label class="language-option">
+
+                        <input
+                            type="radio"
+                            name="language"
+                            value="hindi"
+                            {% if language == "hindi" %}checked{% endif %}
+                        >
+
+                        <span class="language-box">
+
+                            <span class="language-icon hindi-icon">
+                                हि
+                            </span>
+
+                            <span>
+                                <strong>Hindi</strong>
+                                <small>Stanza NLP</small>
+                            </span>
+
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INPUT METHOD
+                 ================================================= -->
+
+            <div class="control-section">
+
+                <label class="control-label">
+                    Contract Input
+                </label>
+
+                <div class="input-tabs">
+
+                    <label class="input-tab">
+
+                        <input
+                            type="radio"
+                            name="input_method"
+                            value="text"
+                            checked
+                            onchange="switchInput('text')"
+                        >
+
+                        <span>
+                            <span class="tab-icon">▤</span>
+                            Paste Text
+                        </span>
+
+                    </label>
+
+
+                    <label class="input-tab">
+
+                        <input
+                            type="radio"
+                            name="input_method"
+                            value="pdf"
+                            onchange="switchInput('pdf')"
+                        >
+
+                        <span>
+                            <span class="tab-icon">▱</span>
+                            Upload PDF
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- TEXT INPUT -->
+
+                <div
+                    id="textInputSection"
+                    class="input-panel"
+                >
+
+                    <div class="textarea-wrapper">
+
+                        <textarea
+                            name="contract_text"
+                            id="contractText"
+                            placeholder="Paste your legal contract here..."
+                        >{{ text }}</textarea>
+
+                        <div class="textarea-footer">
+
+                            <span id="inputStatus">
+                                Ready for analysis
+                            </span>
+
+                            <span>
+
+                                <strong id="wordCount">
+                                    0
+                                </strong>
+
+                                words
+
+                                ·
+
+                                <strong id="charCount">
+                                    0
+                                </strong>
+
+                                characters
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PDF INPUT -->
+
+                <div
+                    id="pdfInputSection"
+                    class="input-panel hidden"
+                >
+
+                    <div
+                        class="upload-zone"
+                        id="uploadZone"
+                    >
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <h3>
+                            Drop your PDF here
+                        </h3>
+
+                        <p>
+                            or
+                            <span>
+                                browse from your computer
+                            </span>
+                        </p>
+
+                        <small>
+                            PDF files only · Maximum 10 MB
+                        </small>
+
+                        <input
+                            type="file"
+                            id="pdfFile"
+                            name="contract_pdf"
+                            accept=".pdf,application/pdf"
+                            hidden
+                        >
+
+                    </div>
+
+
+                    <div
+                        id="selectedFile"
+                        class="selected-file hidden"
+                    >
+
+                        <div class="file-icon">
+                            PDF
+                        </div>
+
+                        <div class="file-details">
+
+                            <strong id="fileName">
+                                contract.pdf
+                            </strong>
+
+                            <span id="fileSize">
+                                0 KB
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="remove-file"
+                            id="removeFile"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACTION BUTTONS
+                 ================================================= -->
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="btn-clear"
+                    id="clearButton"
+                >
+                    ↺ Clear
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    id="analyzeButton"
+                >
+
+                    <span id="buttonText">
+                        Analyze Contract
+                    </span>
+
+                    <span
+                        id="loadingText"
+                        class="hidden"
+                    >
+                        Analyzing...
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    {% if results %}
+
+    <div class="simplify-result">
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+                    <div class="section-eyebrow">PLAIN-LANGUAGE VIEW</div>
+                    <h3>Contract Made Simpler</h3>
+                    <p>Key information and a concise summary extracted from the submitted contract.</p>
+                </div>
+
+                {% if language == "english" %}
+                <span class="count-badge">{{ results["summary"]["summary"]|length }}</span>
+                {% else %}
+                <span class="count-badge">{{ results["sentences"]|length }}</span>
+                {% endif %}
+
+            </div>
+
+            {% if language == "english" %}
+
+            {% if results["summary"]["summary"] %}
+            <div class="summary-content">
+                {% for sentence in results["summary"]["summary"] %}
+                <div class="summary-item">
+                    <span class="summary-number">{{ "%02d"|format(loop.index) }}</span>
+                    <p>{{ sentence }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-result">No simplified summary could be generated.</div>
+            {% endif %}
+
+            {% else %}
+
+            <div class="summary-content">
+                {% for sentence in results["sentences"] %}
+                <div class="summary-item">
+                    <span class="summary-number">{{ "%02d"|format(loop.index) }}</span>
+                    <p class="hindi-text">{{ sentence }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% if language == "english" and results["keywords"]["keywords"] %}
+
+        <div class="result-card" style="margin-top: 20px;">
+
+            <div class="result-card-header">
+                <div>
+                    <div class="section-eyebrow">KEY TERMS</div>
+                    <h3>Important Terms at a Glance</h3>
+                </div>
+            </div>
+
+            <div class="keyword-list">
+                {% for item in results["keywords"]["keywords"][:8] %}
+                <div class="keyword-item">
+                    <span class="keyword-word">{{ item["word"] }}</span>
+                    <span class="keyword-frequency">{{ item["frequency"] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        {% elif language == "hindi" and results["legal_terms"] %}
+
+        <div class="result-card" style="margin-top: 20px;">
+
+            <div class="result-card-header">
+                <div>
+                    <div class="section-eyebrow">LEGAL TERMS</div>
+                    <h3>Important Terms at a Glance</h3>
+                </div>
+            </div>
+
+            <div class="keyword-list">
+                {% for item in results["legal_terms"][:8] %}
+                <div class="keyword-item">
+                    <span class="keyword-word hindi-text">{{ item["text"] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <div class="simplify-actions">
+            <form method="POST" action="{{ url_for('download_report') }}">
+                <input type="hidden" name="contract_text" value="{{ text }}">
+                <input type="hidden" name="language" value="{{ language }}">
+                <button type="submit" class="btn btn-primary">
+                    Download Simplified Report
+                    <span class="button-arrow">↓</span>
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+    <!-- =====================================================
+         COMPARE CONTRACTS TAB
+         ===================================================== -->
+
+    <section class="feature-tab-panel" id="compareTab" data-panel="compare" role="tabpanel">
+
+    <!-- =====================================================
+         CONTRACT COMPARISON
+         ===================================================== -->
+
+    <section class="comparison-workspace" id="comparison">
+
+        <div class="comparison-intro">
+
+            <div class="section-eyebrow">
+                DOCUMENT COMPARISON
+            </div>
+
+            <h2>
+                Compare Two Contracts
+            </h2>
+
+            <p>
+                Compare two legal documents using TF-IDF and cosine similarity.
+                Paste the contract text or provide a PDF for each document.
+            </p>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ url_for('compare') }}"
+            enctype="multipart/form-data"
+        >
+
+            <div class="comparison-grid">
+
+                <div class="comparison-panel">
+
+                    <h4>
+                        Contract 01
+                    </h4>
+
+                    <textarea
+                        name="contract1_text"
+                        placeholder="Paste the first contract here..."
+                    >{{ contract1_text|default('') }}</textarea>
+
+                    <label class="comparison-file">
+                        Or upload Contract 01 as PDF
+                        <input
+                            type="file"
+                            name="contract1_pdf"
+                            accept=".pdf,application/pdf"
+                        >
+                    </label>
+
+                    <div class="comparison-note">
+                        If both text and PDF are provided, pasted text is used.
+                    </div>
+
+                </div>
+
+
+                <div class="comparison-panel">
+
+                    <h4>
+                        Contract 02
+                    </h4>
+
+                    <textarea
+                        name="contract2_text"
+                        placeholder="Paste the second contract here..."
+                    >{{ contract2_text|default('') }}</textarea>
+
+                    <label class="comparison-file">
+                        Or upload Contract 02 as PDF
+                        <input
+                            type="file"
+                            name="contract2_pdf"
+                            accept=".pdf,application/pdf"
+                        >
+                    </label>
+
+                    <div class="comparison-note">
+                        If both text and PDF are provided, pasted text is used.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="comparison-actions">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Compare Contracts
+                    <span class="button-arrow">→</span>
+                </button>
+
+            </div>
+
+        </form>
+
+        {% if comparison %}
+
+        <div class="comparison-result">
+
+            <div class="section-eyebrow">
+                SIMILARITY RESULT
+            </div>
+
+            <div class="similarity-score">
+                {{ comparison.percentage }}%
+            </div>
+
+            <p class="similarity-message">
+                {{ comparison.message }}
+            </p>
+
+            <div class="comparison-bar" aria-label="Contract similarity">
+                <div class="comparison-bar-fill" data-percentage="{{ comparison.percentage if comparison else 0 }}"></div>
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+    </section>
+
+
+    <!-- =====================================================
+         NLP ANALYSIS TAB
+         ===================================================== -->
+
+    <section class="feature-tab-panel" id="analysisTab" data-panel="analysis" role="tabpanel">
+
+    {% if results %}
+
+    <section
+        class="results-section"
+        id="results"
+    >
+
+        <div class="results-heading">
+
+            <div>
+
+                <div class="section-eyebrow">
+                    ANALYSIS COMPLETE
+                </div>
+
+                <h2>
+                    Contract Analysis
+                </h2>
+
+                <p>
+                    Linguistic and legal information extracted from your document.
+                </p>
+
+            </div>
+
+            <button
+                type="button"
+                class="outline-button"
+                id="analyzeAnother"
+            >
+                Analyze Another
+            </button>
+
+        </div>
+
+
+        {% if language == "english" %}
+
+
+        <!-- =================================================
+             ENGLISH RESULTS
+             ================================================= -->
+
+        {% set nlp = results["nlp"] %}
+        {% set entities = nlp["entities"] %}
+        {% set clauses = results["legal_clauses"] %}
+        {% set morphology = results["morphology"] %}
+
+        {% set summary = results["summary"] %}
+        {% set keywords = results["keywords"] %}
+
+
+        <!-- LANGUAGE BANNER -->
+
+        <div class="result-language-banner english-banner">
+
+            <div class="result-language-icon">
+                EN
+            </div>
+
+            <div>
+
+                <strong>
+                    English / Legal NLP
+                </strong>
+
+                <span>
+                    spaCy-based linguistic and legal analysis
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATS
+             ================================================= -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    Aa
+                </div>
+
+                <div>
+
+                    <span>
+                        Tokens
+                    </span>
+
+                    <strong>
+                        {{ nlp["tokens"]|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ¶
+                </div>
+
+                <div>
+
+                    <span>
+                        Sentences
+                    </span>
+
+                    <strong>
+                        {{ nlp["sentences"]|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ◎
+                </div>
+
+                <div>
+
+                    <span>
+                        Entities
+                    </span>
+
+                    <strong>
+                        {{ entities|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    §
+                </div>
+
+                <div>
+
+                    <span>
+                        Clause Types
+                    </span>
+
+                    <strong>
+                        {{ clauses|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTRACT SUMMARY
+             ================================================= -->
+
+        <div class="result-card summary-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        DOCUMENT SUMMARY
+                    </div>
+
+                    <h3>
+                        Contract Summary
+                    </h3>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ summary["summary"]|length }}
+                </span>
+
+            </div>
+
+
+            {% if summary["summary"] %}
+
+            <div class="summary-content">
+
+                {% for sentence in summary["summary"] %}
+
+                <div class="summary-item">
+
+                    <span class="summary-number">
+                        {{ "%02d"|format(loop.index) }}
+                    </span>
+
+                    <p>
+                        {{ sentence }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No summary could be generated from this document.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             IMPORTANT KEYWORDS
+             ================================================= -->
+
+        <div class="result-card keywords-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        KEY TERMS
+                    </div>
+
+                    <h3>
+                        Important Keywords
+                    </h3>
+
+                    <p>
+                        Frequently occurring meaningful terms identified from the contract.
+                    </p>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ keywords["keywords"]|length }}
+                </span>
+
+            </div>
+
+
+            {% if keywords["keywords"] %}
+
+            <div class="keyword-list">
+
+                {% for item in keywords["keywords"] %}
+
+                <div class="keyword-item">
+
+                    <span class="keyword-word">
+                        {{ item["word"] }}
+                    </span>
+
+                    <span class="keyword-frequency">
+                        {{ item["frequency"] }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No important keywords were detected.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+            KEYWORD FREQUENCY
+            ================================================= -->
+
+        <div
+            class="result-card keyword-chart-card"
+            id="keywordChartContainer"
+            data-labels='{{ keywords["keyword_chart"]["labels"] | tojson }}'
+            data-frequencies='{{ keywords["keyword_chart"]["frequencies"] | tojson }}'
+        >
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        TERM FREQUENCY
+                    </div>
+
+                    <h3>
+                        Keyword Frequency
+                    </h3>
+
+                    <p>
+                        Frequency of the most significant terms found in the contract.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        <div class="keyword-chart-wrapper">
+            <canvas id="keywordFrequencyChart"></canvas>
+        </div>
+
+        </div>
+
+
+        <!-- =================================================
+             LEGAL KEYWORDS
+             ================================================= -->
+
+        <div class="result-card legal-keywords-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        LEGAL VOCABULARY
+                    </div>
+
+                    <h3>
+                        Legal Keywords
+                    </h3>
+
+                    <p>
+                        Contract-specific legal terminology identified by the analyzer.
+                    </p>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ keywords["legal_keywords"]|length }}
+                </span>
+
+            </div>
+
+
+            {% if keywords["legal_keywords"] %}
+
+            <div class="legal-keyword-list">
+
+                {% for item in keywords["legal_keywords"] %}
+
+                <div class="legal-keyword-item">
+
+                    <span>
+                        {{ item["word"] }}
+                    </span>
+
+                    <strong>
+                        {{ item["frequency"] }}
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No predefined legal keywords were detected.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             NAMED ENTITY RECOGNITION
+             ================================================= -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        NAMED ENTITY RECOGNITION
+                    </div>
+
+                    <h3>
+                        Legal Entities
+                    </h3>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ entities|length }}
+                </span>
+
+            </div>
+
+
+            {% if entities %}
+
+            <div class="entity-grid">
+
+                {% for entity in entities %}
+
+                <div class="entity-item">
+
+                    <span class="entity-label">
+                        {{ entity["label"] }}
+                    </span>
+
+                    <strong class="entity-text">
+                        {{ entity["text"] }}
+                    </strong>
+
+                    <span class="entity-description">
+                        {{ entity["description"] }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No named entities were detected.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             LEGAL CLAUSES
+             ================================================= -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        LEGAL CLAUSE DETECTION
+                    </div>
+
+                    <h3>
+                        Detected Clauses
+                    </h3>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ clauses|length }}
+                </span>
+
+            </div>
+
+
+            {% if clauses %}
+
+            <div class="clause-list">
+
+                {% for clause_type, clause_items in clauses.items() %}
+
+                <div class="clause-item">
+
+                    <div class="clause-header">
+
+                        <span class="clause-number">
+                            {{ loop.index }}
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                {{ clause_type }}
+                            </strong>
+
+                            <span>
+                                {{ clause_items|length }}
+                                matching sentence{% if clause_items|length != 1 %}s{% endif %}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {% for clause in clause_items %}
+
+                    <div class="clause-content">
+
+                        <p>
+                            {{ clause["sentence"] }}
+                        </p>
+
+                        <div class="keyword-list">
+
+                            {% for keyword in clause["keywords"] %}
+
+                            <span class="keyword">
+                                {{ keyword }}
+                            </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No predefined legal clauses were detected.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             MORPHOLOGICAL ANALYSIS
+             ================================================= -->
+
+        <div class="result-card">
+
+            <div class="result-card-header morphology-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        LINGUISTIC ANALYSIS
+                    </div>
+
+                    <h3>
+                        Morphological Analysis
+                    </h3>
+
+                    <p>
+                        spaCy linguistic features, lemmas and grammatical information.
+                    </p>
+
+                </div>
+
+                <div class="table-search">
+
+                    <span>
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        id="morphologySearch"
+                        placeholder="Search word..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="morphologyTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                WORD
+                            </th>
+
+                            <th>
+                                LEMMA
+                            </th>
+
+                            <th>
+                                PART OF SPEECH
+                            </th>
+
+                            <th>
+                                MORPHOLOGY
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in morphology %}
+
+                    <tr>
+
+                        <td class="word-cell">
+                            {{ item["word"] }}
+                        </td>
+
+                        <td>
+                            {{ item["lemma"] }}
+                        </td>
+
+                        <td>
+
+                            <span class="pos-badge">
+                                {{ item["pos"] }}
+                            </span>
+
+                        </td>
+
+                        <td class="morph-cell">
+                            {{ item["morphology"] or "None" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SOURCE DOCUMENT
+             ================================================= -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        SOURCE DOCUMENT
+                    </div>
+
+                    <h3>
+                        Contract Preview
+                    </h3>
+
+                </div>
+
+                <span class="source-badge">
+                    English
+                </span>
+
+            </div>
+
+            <div class="source-preview">
+                {{ text }}
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =================================================
+             HINDI RESULTS
+             ================================================= -->
+
+        {% set tokens = results["tokens"] %}
+        {% set sentences = results["sentences"] %}
+        {% set legal_terms = results["legal_terms"] %}
+        {% set morphology = results["morphology"] %}
+
+
+        <!-- LANGUAGE BANNER -->
+
+        <div class="result-language-banner hindi-banner">
+
+            <div class="result-language-icon">
+                हि
+            </div>
+
+            <div>
+
+                <strong>
+                    Hindi / Legal NLP
+                </strong>
+
+                <span>
+                    Stanza-based Hindi linguistic analysis
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    अ
+                </div>
+
+                <div>
+
+                    <span>
+                        Tokens
+                    </span>
+
+                    <strong>
+                        {{ tokens|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ¶
+                </div>
+
+                <div>
+
+                    <span>
+                        Sentences
+                    </span>
+
+                    <strong>
+                        {{ sentences|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    §
+                </div>
+
+                <div>
+
+                    <span>
+                        Legal Terms
+                    </span>
+
+                    <strong>
+                        {{ legal_terms|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    Aa
+                </div>
+
+                <div>
+
+                    <span>
+                        Morphology
+                    </span>
+
+                    <strong>
+                        {{ morphology|length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LEGAL TERMS -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        LEGAL TERMINOLOGY
+                    </div>
+
+                    <h3>
+                        Detected Legal Terms
+                    </h3>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ legal_terms|length }}
+                </span>
+
+            </div>
+
+
+            {% if legal_terms %}
+
+            <div class="entity-grid">
+
+                {% for term in legal_terms %}
+
+                <div class="entity-item">
+
+                    <span class="entity-label">
+                        LEGAL TERM
+                    </span>
+
+                    <strong class="entity-text hindi-text">
+                        {{ term["text"] }}
+                    </strong>
+
+                    <span class="entity-description">
+                        {{ term["meaning"] }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-result">
+                No predefined legal terms were detected.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- SENTENCES -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        DOCUMENT STRUCTURE
+                    </div>
+
+                    <h3>
+                        Contract Sentences
+                    </h3>
+
+                </div>
+
+                <span class="count-badge">
+                    {{ sentences|length }}
+                </span>
+
+            </div>
+
+
+            <div class="sentence-list">
+
+                {% for sentence in sentences %}
+
+                <div class="sentence-item">
+
+                    <span>
+                        {{ loop.index }}
+                    </span>
+
+                    <p class="hindi-text">
+                        {{ sentence }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <!-- HINDI MORPHOLOGY -->
+
+        <div class="result-card">
+
+            <div class="result-card-header morphology-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        LINGUISTIC ANALYSIS
+                    </div>
+
+                    <h3>
+                        Hindi Morphological Analysis
+                    </h3>
+
+                    <p>
+                        Stanza-based token, lemma, POS and morphological features.
+                    </p>
+
+                </div>
+
+                <div class="table-search">
+
+                    <span>
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        id="hindiMorphologySearch"
+                        placeholder="Search word..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="hindiMorphologyTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                WORD
+                            </th>
+
+                            <th>
+                                LEMMA
+                            </th>
+
+                            <th>
+                                PART OF SPEECH
+                            </th>
+
+                            <th>
+                                MORPHOLOGICAL FEATURES
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for item in morphology %}
+
+                    <tr>
+
+                        <td class="word-cell hindi-text">
+                            {{ item["word"] }}
+                        </td>
+
+                        <td class="hindi-text">
+                            {{ item["lemma"] }}
+                        </td>
+
+                        <td>
+
+                            <span class="pos-badge">
+                                {{ item["pos"] }}
+                            </span>
+
+                        </td>
+
+                        <td class="morph-cell">
+                            {{ item["morphology"] or "None" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- SOURCE -->
+
+        <div class="result-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+                        SOURCE DOCUMENT
+                    </div>
+
+                    <h3>
+                        Contract Preview
+                    </h3>
+
+                </div>
+
+                <span class="source-badge">
+                    Hindi
+                </span>
+
+            </div>
+
+            <div class="source-preview hindi-text">
+                {{ text }}
+            </div>
+
+        </div>
+
+
+        {% endif %}
+
+    </section>
+
+
+    {% else %}
+
+
+    <!-- =====================================================
+         EMPTY DASHBOARD
+         ===================================================== -->
+
+    <section class="empty-dashboard">
+
+        <div class="empty-icon">
+            ⚖
+        </div>
+
+        <div class="section-eyebrow">
+            DOCUMENT WORKSPACE
+        </div>
+
+        <h3>
+            Your contract analysis will appear here.
+        </h3>
+
+        <p>
+            Submit a document above to examine its language,
+            structure and legally relevant terms.
+        </p>
+
+        <div class="empty-points">
+
+            <span>
+                01 — Entities
+            </span>
+
+            <span>
+                02 — Clauses
+            </span>
+
+            <span>
+                03 — Linguistics
+            </span>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<footer class="footer">
+
+    <div>
+
+        <strong>
+            LexiNLP
+        </strong>
+
+        <span>
+            Intelligent Legal Contract Analyzer
+        </span>
+
+    </div>
+
+    <span>
+        NLP · LegalTech · English + Hindi
+    </span>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const textArea =
+    document.getElementById("contractText");
+
+const uploadZone =
+    document.getElementById("uploadZone");
+
+const pdfInput =
+    document.getElementById("pdfFile");
+
+const selectedFile =
+    document.getElementById("selectedFile");
+
+const form =
+    document.getElementById("contractForm");
+
+
+/* =========================================================
+   FEATURE TABS
+   ========================================================= */
+
+const featureTabs =
+    document.querySelectorAll(".feature-tab");
+
+const featurePanels =
+    document.querySelectorAll(".feature-tab-panel");
+
+function openFeatureTab(tabName) {
+
+    featureTabs.forEach(function(tab) {
+
+        const isActive =
+            tab.dataset.tab === tabName;
+
+        tab.classList.toggle(
+            "active",
+            isActive
+        );
+
+        tab.setAttribute(
+            "aria-selected",
+            isActive ? "true" : "false"
+        );
+
+    });
+
+    featurePanels.forEach(function(panel) {
+
+        panel.classList.toggle(
+            "active",
+            panel.dataset.panel === tabName
+        );
+
+    });
+
+}
+
+featureTabs.forEach(function(tab) {
+
+    tab.addEventListener(
+        "click",
+        function() {
+
+            openFeatureTab(
+                tab.dataset.tab
+            );
+
+        }
+    );
+
+});
+
+const initialTab =
+    document.body.dataset.activeTab ||
+    "simplify";
+
+openFeatureTab(initialTab);
+
+
+/* =========================================================
+   INPUT SWITCH
+   ========================================================= */
+
+function switchInput(type) {
+
+    const textSection =
+        document.getElementById("textInputSection");
+
+    const pdfSection =
+        document.getElementById("pdfInputSection");
+
+    if (type === "pdf") {
+
+        textSection.classList.add("hidden");
+
+        pdfSection.classList.remove("hidden");
+
+    } else {
+
+        pdfSection.classList.add("hidden");
+
+        textSection.classList.remove("hidden");
+
+    }
+
+}
+
+
+/* =========================================================
+   COUNTERS
+   ========================================================= */
+
+function updateCounters() {
+
+    if (!textArea) return;
+
+    const value =
+        textArea.value;
+
+    const words =
+        value.trim()
+            ? value.trim().split(/\s+/).length
+            : 0;
+
+    document.getElementById("wordCount")
+        .textContent =
+        words.toLocaleString();
+
+    document.getElementById("charCount")
+        .textContent =
+        value.length.toLocaleString();
+
+    const status =
+        document.getElementById("inputStatus");
+
+    if (value.trim()) {
+
+        status.textContent =
+            "Contract text ready";
+
+    } else {
+
+        status.textContent =
+            "Ready for analysis";
+
+    }
+
+}
+
+
+if (textArea) {
+
+    textArea.addEventListener(
+        "input",
+        updateCounters
+    );
+
+    updateCounters();
+
+}
+
+
+/* =========================================================
+   PDF
+   ========================================================= */
+
+function showSelectedPDF(file) {
+
+    if (!file) return;
+
+    if (
+        !file.name
+            .toLowerCase()
+            .endsWith(".pdf")
+    ) {
+
+        alert(
+            "Please select a PDF file."
+        );
+
+        pdfInput.value = "";
+
+        return;
+
+    }
+
+
+    const maxSize =
+        10 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+
+        alert(
+            "The selected PDF is larger than 10 MB."
+        );
+
+        pdfInput.value = "";
+
+        return;
+
+    }
+
+
+    document.getElementById("fileName")
+        .textContent =
+        file.name;
+
+    document.getElementById("fileSize")
+        .textContent =
+        formatFileSize(file.size);
+
+    selectedFile
+        .classList
+        .remove("hidden");
+
+    uploadZone
+        .classList
+        .add("has-file");
+
+}
+
+
+function formatFileSize(bytes) {
+
+    if (bytes < 1024) {
+
+        return bytes + " B";
+
+    }
+
+    if (bytes < 1024 * 1024) {
+
+        return (
+            bytes / 1024
+        ).toFixed(1) + " KB";
+
+    }
+
+    return (
+        bytes / (1024 * 1024)
+    ).toFixed(1) + " MB";
+
+}
+
+
+/* =========================================================
+   FILE INPUT
+   ========================================================= */
+
+if (pdfInput) {
+
+    pdfInput.addEventListener(
+        "change",
+        function() {
+
+            if (this.files.length) {
+
+                showSelectedPDF(
+                    this.files[0]
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   UPLOAD CLICK
+   ========================================================= */
+
+if (uploadZone) {
+
+    uploadZone.addEventListener(
+        "click",
+        function() {
+
+            if (pdfInput) {
+
+                pdfInput.click();
+
+            }
+
+        }
+    );
+
+
+    uploadZone.addEventListener(
+        "dragover",
+        function(event) {
+
+            event.preventDefault();
+
+            uploadZone
+                .classList
+                .add("dragging");
+
+        }
+    );
+
+
+    uploadZone.addEventListener(
+        "dragleave",
+        function() {
+
+            uploadZone
+                .classList
+                .remove("dragging");
+
+        }
+    );
+
+
+    uploadZone.addEventListener(
+        "drop",
+        function(event) {
+
+            event.preventDefault();
+
+            uploadZone
+                .classList
+                .remove("dragging");
+
+            const files =
+                event.dataTransfer.files;
+
+            if (!files.length) return;
+
+            const file =
+                files[0];
+
+            if (
+                !file.name
+                    .toLowerCase()
+                    .endsWith(".pdf")
+            ) {
+
+                alert(
+                    "Please drop a PDF file."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const dataTransfer =
+                    new DataTransfer();
+
+                dataTransfer.items.add(file);
+
+                pdfInput.files =
+                    dataTransfer.files;
+
+                showSelectedPDF(file);
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   REMOVE PDF
+   ========================================================= */
+
+const removeFile =
+    document.getElementById("removeFile");
+
+if (removeFile) {
+
+    removeFile.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+            pdfInput.value = "";
+
+            selectedFile
+                .classList
+                .add("hidden");
+
+            uploadZone
+                .classList
+                .remove("has-file");
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR
+   ========================================================= */
+const clearButton =
+    document.getElementById("clearButton");
+
+if (clearButton) {
+
+    clearButton.addEventListener(
+        "click",
+        function(event) {
+
+            // Prevent the button from submitting the form
+            event.preventDefault();
+
+            // Start with a completely fresh page
+            window.location.href = "/";
+
+        }
+    );
+
+}
+
+/* =========================================================
+   FORM SUBMIT
+   ========================================================= */
+
+if (form) {
+
+    form.addEventListener(
+        "submit",
+        function(event) {
+
+            const inputMethod =
+                document.querySelector(
+                    'input[name="input_method"]:checked'
+                );
+
+            const language =
+                document.querySelector(
+                    'input[name="language"]:checked'
+                );
+
+
+            if (
+                inputMethod &&
+                inputMethod.value === "text" &&
+                (
+                    !textArea ||
+                    !textArea.value.trim()
+                )
+            ) {
+
+                event.preventDefault();
+
+                alert(
+                    language &&
+                    language.value === "hindi"
+                        ? "Please enter Hindi contract text."
+                        : "Please enter contract text."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                inputMethod &&
+                inputMethod.value === "pdf" &&
+                (
+                    !pdfInput ||
+                    !pdfInput.files.length
+                )
+            ) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please select a PDF contract."
+                );
+
+                return;
+
+            }
+
+
+            const analyzeButton =
+                document.getElementById(
+                    "analyzeButton"
+                );
+
+            const buttonText =
+                document.getElementById(
+                    "buttonText"
+                );
+
+            const loadingText =
+                document.getElementById(
+                    "loadingText"
+                );
+
+
+            analyzeButton.disabled = true;
+
+            buttonText.classList.add(
+                "hidden"
+            );
+
+            loadingText.classList.remove(
+                "hidden"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TABLE SEARCH
+   ========================================================= */
+
+function filterTable(
+    inputId,
+    tableId
+) {
+
+    const input =
+        document.getElementById(inputId);
+
+    const table =
+        document.getElementById(tableId);
+
+    if (!input || !table) return;
+
+    const filter =
+        input.value.toLowerCase();
+
+    const rows =
+        table.querySelectorAll(
+            "tbody tr"
+        );
+
+    rows.forEach(
+        function(row) {
+
+            row.style.display =
+                row.textContent
+                    .toLowerCase()
+                    .includes(filter)
+                    ? ""
+                    : "none";
+
+        }
+    );
+
+}
+
+
+const morphologySearch =
+    document.getElementById(
+        "morphologySearch"
+    );
+
+if (morphologySearch) {
+
+    morphologySearch.addEventListener(
+        "input",
+        function() {
+
+            filterTable(
+                "morphologySearch",
+                "morphologyTable"
+            );
+
+        }
+    );
+
+}
+
+
+const hindiMorphologySearch =
+    document.getElementById(
+        "hindiMorphologySearch"
+    );
+
+if (hindiMorphologySearch) {
+
+    hindiMorphologySearch.addEventListener(
+        "input",
+        function() {
+
+            filterTable(
+                "hindiMorphologySearch",
+                "hindiMorphologyTable"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ANALYZE ANOTHER
+   ========================================================= */
+
+const analyzeAnother =
+    document.getElementById(
+        "analyzeAnother"
+    );
+
+if (analyzeAnother) {
+
+    analyzeAnother.addEventListener(
+        "click",
+        function() {
+
+            openFeatureTab("simplify");
+
+            const analyzer =
+                document.getElementById(
+                    "analyzer"
+                );
+
+            if (analyzer) {
+
+                analyzer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESULTS SCROLL
+   ========================================================= */
+
+// Results are kept on the NLP Analysis tab so the user can
+// choose when to open the detailed linguistic analysis.
+
+
+/* =========================================================
+   KEYWORD FREQUENCY CHART
+   ========================================================= */
+
+const keywordChartContainer =
+    document.getElementById(
+        "keywordChartContainer"
+    );
+
+const keywordChartCanvas =
+    document.getElementById(
+        "keywordFrequencyChart"
+    );
+
+if (
+    keywordChartContainer &&
+    keywordChartCanvas
+) {
+
+    const keywordLabels =
+        JSON.parse(
+            keywordChartContainer.dataset.labels
+        );
+
+    const keywordFrequencies =
+        JSON.parse(
+            keywordChartContainer.dataset.frequencies
+        );
+
+    new Chart(
+        keywordChartCanvas,
+        {
+            type: "bar",
+
+            data: {
+
+                labels: keywordLabels,
+
+                datasets: [
+                    {
+                        label: "Frequency",
+                        data: keywordFrequencies,
+                        borderWidth: 1,
+                        borderRadius: 2
+                    }
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+
+                scales: {
+
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "DM Sans",
+                                size: 11
+                            }
+                        }
+                    },
+
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+
+                }
+
+            }
+        }
+    );
+
+}
+</script>
+
+</body>
+</html>
