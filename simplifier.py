@@ -1,10 +1,98 @@
 import re
 
 
+# ============================================================
+# SENTENCE CLEANUP
+# ============================================================
+
+def merge_sentence_fragments(sentences):
+    """
+    Merge sentence fragments incorrectly created by NLP sentence
+    splitting, especially abbreviations such as Pvt. Ltd.
+    """
+
+    merged = []
+
+    # Common abbreviations that should NOT end a sentence
+    abbreviations = {
+        "pvt.",
+        "ltd.",
+        "mr.",
+        "mrs.",
+        "ms.",
+        "dr.",
+        "prof.",
+        "inc.",
+        "corp.",
+        "co.",
+        "no.",
+        "etc.",
+        "e.g.",
+        "i.e."
+    }
+
+    i = 0
+
+    while i < len(sentences):
+
+        current = sentences[i].strip()
+
+        if not current:
+            i += 1
+            continue
+
+        # ----------------------------------------------------
+        # Join fragments such as:
+        #
+        # "ABC Technologies Pvt."
+        # "Ltd."
+        #
+        # into:
+        #
+        # "ABC Technologies Pvt. Ltd."
+        # ----------------------------------------------------
+
+        while i + 1 < len(sentences):
+
+            next_sentence = sentences[i + 1].strip()
+
+            if not next_sentence:
+                i += 1
+                continue
+
+            last_word = current.split()[-1].lower()
+
+            # Current sentence ends with an abbreviation
+            if last_word in abbreviations:
+                current = current + " " + next_sentence
+                i += 1
+                continue
+
+            # Next sentence begins with a lowercase word.
+            # This usually indicates that the previous sentence
+            # was incorrectly split.
+            if next_sentence[0].islower():
+                current = current + " " + next_sentence
+                i += 1
+                continue
+
+            break
+
+        merged.append(current)
+
+        i += 1
+
+    return merged
+
+
+# ============================================================
+# SENTENCE SIMPLIFICATION
+# ============================================================
+
 def simplify_sentence(sentence):
     """
     Convert common legal wording into simpler language.
-    The function preserves important names, dates and amounts.
+    Important names, dates and amounts are preserved.
     """
 
     original = sentence.strip()
@@ -14,7 +102,10 @@ def simplify_sentence(sentence):
 
     text = original
 
-    # Agreement / parties
+    # --------------------------------------------------------
+    # AGREEMENT / PARTIES
+    # --------------------------------------------------------
+
     match = re.search(
         r"This Agreement is entered into between (.+?) and (.+?) on (.+?)[.]?$",
         text,
@@ -22,47 +113,67 @@ def simplify_sentence(sentence):
     )
 
     if match:
+
         party1 = match.group(1).strip()
         party2 = match.group(2).strip()
         date = match.group(3).strip()
 
         return (
-            f"{party1} and {party2} are entering into this agreement "
-            f"on {date}."
+            f"{party1} and {party2} are entering into this "
+            f"agreement on {date}."
         )
 
-    # Monthly salary / payment
+    # --------------------------------------------------------
+    # MONTHLY SALARY / PAYMENT
+    # --------------------------------------------------------
+
     match = re.search(
-        r"(?:agrees|agreed|shall agree) to pay (.+?) a monthly amount of (.+?)[.]?$",
+        r"(?:agrees|agreed|shall agree) to pay "
+        r"(.+?) a monthly amount of (.+?)[.]?$",
         text,
         re.IGNORECASE
     )
 
     if match:
+
         person = match.group(1).strip()
         amount = match.group(2).strip()
 
-        return f"The company will pay {person} {amount} every month."
+        return (
+            f"The company will pay {person} "
+            f"{amount} every month."
+        )
 
-    # General payment
+    # --------------------------------------------------------
+    # GENERAL PAYMENT
+    # --------------------------------------------------------
+
     match = re.search(
-        r"(?:agrees|agreed|shall agree) to pay (.+?) (?:the amount of )?(.+?)[.]?$",
+        r"(?:agrees|agreed|shall agree) to pay "
+        r"(.+?) (?:the amount of )?(.+?)[.]?$",
         text,
         re.IGNORECASE
     )
 
     if match:
+
         person = match.group(1).strip()
         amount = match.group(2).strip()
 
-        return f"The payment to {person} is {amount}."
+        return (
+            f"The payment to {person} is {amount}."
+        )
 
-    # Confidentiality
+    # --------------------------------------------------------
+    # CONFIDENTIALITY
+    # --------------------------------------------------------
+
     if re.search(
         r"confidential|confidentiality",
         text,
         re.IGNORECASE
     ):
+
         simplified = re.sub(
             r"the employee agrees to maintain confidentiality of",
             "The employee must keep",
@@ -77,9 +188,10 @@ def simplify_sentence(sentence):
             flags=re.IGNORECASE
         )
 
+        # Avoid creating awkward duplicate wording
         simplified = re.sub(
-            r"company information",
-            "company information confidential",
+            r"company information\.?$",
+            "company information confidential.",
             simplified,
             flags=re.IGNORECASE
         )
@@ -89,12 +201,16 @@ def simplify_sentence(sentence):
 
         return simplified
 
-    # Termination
+    # --------------------------------------------------------
+    # TERMINATION
+    # --------------------------------------------------------
+
     if re.search(
         r"terminate|termination",
         text,
         re.IGNORECASE
     ):
+
         simplified = text
 
         simplified = re.sub(
@@ -118,16 +234,15 @@ def simplify_sentence(sentence):
             flags=re.IGNORECASE
         )
 
-        simplified = re.sub(
-            r"written notice",
-            "written notice",
-            simplified,
-            flags=re.IGNORECASE
-        )
+        if not simplified.endswith("."):
+            simplified += "."
 
         return simplified
 
-    # Shall → must
+    # --------------------------------------------------------
+    # COMMON LEGAL WORDING
+    # --------------------------------------------------------
+
     text = re.sub(
         r"\bshall\b",
         "must",
@@ -135,7 +250,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Agrees to → must
     text = re.sub(
         r"\bagrees to\b",
         "must",
@@ -143,7 +257,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # May → can
     text = re.sub(
         r"\bmay\b",
         "can",
@@ -151,7 +264,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Hereby → now / simply remove it
     text = re.sub(
         r"\bhereby\b",
         "",
@@ -159,7 +271,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Commence → start
     text = re.sub(
         r"\bcommence\b",
         "start",
@@ -167,7 +278,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Prior → before
     text = re.sub(
         r"\bprior\b",
         "before",
@@ -175,7 +285,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Pursuant to → under
     text = re.sub(
         r"\bpursuant to\b",
         "under",
@@ -183,7 +292,6 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # In accordance with → according to
     text = re.sub(
         r"\bin accordance with\b",
         "according to",
@@ -191,7 +299,7 @@ def simplify_sentence(sentence):
         flags=re.IGNORECASE
     )
 
-    # Make whitespace clean
+    # Clean whitespace
     text = re.sub(r"\s+", " ", text).strip()
 
     if text and not text.endswith("."):
@@ -200,13 +308,18 @@ def simplify_sentence(sentence):
     return text
 
 
+# ============================================================
+# SECTION TITLE
+# ============================================================
+
 def get_section_title(sentence):
     """
-    Give each sentence a meaningful legal category.
+    Assign a meaningful legal category to a contract provision.
     """
 
     text = sentence.lower()
 
+    # Agreement / parties
     if any(word in text for word in [
         "agreement",
         "entered into",
@@ -214,22 +327,27 @@ def get_section_title(sentence):
     ]):
         return "PARTIES & AGREEMENT"
 
+    # Payment
     if any(word in text for word in [
         "salary",
         "pay",
         "payment",
         "amount",
         "inr",
-        "rupee"
+        "rupee",
+        "compensation",
+        "wage"
     ]):
         return "PAYMENT"
 
+    # Confidentiality
     if any(word in text for word in [
         "confidential",
         "confidentiality"
     ]):
         return "CONFIDENTIALITY"
 
+    # Termination
     if any(word in text for word in [
         "terminate",
         "termination",
@@ -237,6 +355,7 @@ def get_section_title(sentence):
     ]):
         return "TERMINATION"
 
+    # Responsibilities
     if any(word in text for word in [
         "duty",
         "obligation",
@@ -246,6 +365,7 @@ def get_section_title(sentence):
     ]):
         return "RESPONSIBILITY"
 
+    # Dates
     if any(word in text for word in [
         "date",
         "dated",
@@ -256,14 +376,22 @@ def get_section_title(sentence):
     return "OTHER TERMS"
 
 
+# ============================================================
+# CONTRACT SIMPLIFICATION
+# ============================================================
+
 def simplify_contract(sentences):
     """
-    Create structured plain-language sections.
+    Convert contract sentences into structured,
+    plain-language legal provisions.
     """
+
+    # First fix incorrect sentence splitting
+    cleaned_sentences = merge_sentence_fragments(sentences)
 
     sections = []
 
-    for sentence in sentences:
+    for sentence in cleaned_sentences:
 
         sentence = sentence.strip()
 

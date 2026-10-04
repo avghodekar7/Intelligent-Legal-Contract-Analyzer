@@ -6,6 +6,7 @@ from preprocessing import preprocess_text
 from linguistic_analyzer import analyze_linguistics
 from keyword_analyzer import analyze_keywords
 from summarizer import analyze_summary
+from simplifier import simplify_contract
 
 # --------------------------------------------------
 # ENGLISH CONTRACT ANALYSIS
@@ -34,6 +35,11 @@ def analyze_english_contract(text):
     # Contract summarization
     summary_results = analyze_summary(text)
 
+    # Plain-language contract simplification
+    simplified_sections = simplify_contract(
+        nlp_results["sentences"]
+    )
+
     return {
         "nlp": nlp_results,
         "legal_clauses": legal_results,
@@ -41,7 +47,8 @@ def analyze_english_contract(text):
         "preprocessing": preprocessing_results,
         "linguistics": linguistic_results,
         "keywords": keyword_results,
-        "summary": summary_results
+        "summary": summary_results,
+        "simplified_sections": simplified_sections
     }
 
 

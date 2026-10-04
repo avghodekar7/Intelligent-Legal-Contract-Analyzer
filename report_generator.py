@@ -38,6 +38,7 @@ def _register_hindi_font():
 
 
 def create_simplified_report(text, language, analyzer_results):
+
     buffer = BytesIO()
 
     font_name = (
@@ -59,6 +60,10 @@ def create_simplified_report(text, language, analyzer_results):
 
     styles = getSampleStyleSheet()
 
+    # =========================================================
+    # STYLES
+    # =========================================================
+
     title_style = ParagraphStyle(
         "LexiTitle",
         parent=styles["Title"],
@@ -67,6 +72,16 @@ def create_simplified_report(text, language, analyzer_results):
         leading=27,
         textColor=colors.HexColor("#172536"),
         spaceAfter=8,
+    )
+
+    subtitle_style = ParagraphStyle(
+        "LexiSubtitle",
+        parent=styles["BodyText"],
+        fontName=font_name,
+        fontSize=8.5,
+        leading=12,
+        textColor=colors.HexColor("#5f6873"),
+        spaceAfter=4,
     )
 
     heading_style = ParagraphStyle(
@@ -80,6 +95,16 @@ def create_simplified_report(text, language, analyzer_results):
         spaceAfter=8,
     )
 
+    section_title_style = ParagraphStyle(
+        "LexiSectionTitle",
+        parent=styles["Heading3"],
+        fontName=font_name,
+        fontSize=9,
+        leading=12,
+        textColor=colors.HexColor("#B38A48"),
+        spaceAfter=5,
+    )
+
     body_style = ParagraphStyle(
         "LexiBody",
         parent=styles["BodyText"],
@@ -91,6 +116,15 @@ def create_simplified_report(text, language, analyzer_results):
         spaceAfter=7,
     )
 
+    original_style = ParagraphStyle(
+        "LexiOriginal",
+        parent=body_style,
+        fontSize=8.5,
+        leading=12,
+        textColor=colors.HexColor("#6B7280"),
+        spaceAfter=3,
+    )
+
     small_style = ParagraphStyle(
         "LexiSmall",
         parent=body_style,
@@ -99,79 +133,355 @@ def create_simplified_report(text, language, analyzer_results):
         textColor=colors.HexColor("#5f6873"),
     )
 
+    number_style = ParagraphStyle(
+        "LexiNumber",
+        parent=body_style,
+        fontName=font_name,
+        fontSize=9,
+        leading=12,
+        textColor=colors.white,
+        alignment=TA_LEFT,
+    )
+
     story = []
 
-    story.append(Paragraph("LexiNLP", title_style))
-    story.append(Paragraph(
-        "INTELLIGENT LEGAL CONTRACT ANALYZER",
-        small_style,
-    ))
-    story.append(Spacer(1, 8 * mm))
+    # =========================================================
+    # REPORT HEADER
+    # =========================================================
 
-    story.append(Paragraph("SIMPLIFIED CONTRACT REPORT", heading_style))
-    story.append(Paragraph(
-        f"Language: {language.title()}",
-        small_style,
-    ))
-    story.append(Spacer(1, 5 * mm))
+    story.append(
+        Paragraph(
+            "LexiNLP",
+            title_style
+        )
+    )
 
-    story.append(Paragraph("PLAIN-LANGUAGE SUMMARY", heading_style))
+    story.append(
+        Paragraph(
+            "INTELLIGENT LEGAL CONTRACT ANALYZER",
+            subtitle_style,
+        )
+    )
 
-    if language == "english":
-        summary = analyzer_results.get("summary", {}).get("summary", [])
-    else:
-        summary = analyzer_results.get("sentences", [])
+    story.append(Spacer(1, 6 * mm))
 
-    if summary:
-        for index, sentence in enumerate(summary, start=1):
-            story.append(
-                Paragraph(
-                    f"<b>{index:02d}</b> &nbsp; {sentence}",
-                    body_style,
-                )
+    story.append(
+        Paragraph(
+            "SIMPLIFIED CONTRACT REPORT",
+            heading_style,
+        )
+    )
+
+    story.append(
+        Paragraph(
+            f"Language: {language.title()}",
+            small_style,
+        )
+    )
+
+    story.append(Spacer(1, 4 * mm))
+
+    # =========================================================
+    # PLAIN-LANGUAGE INTRODUCTION
+    # =========================================================
+
+    story.append(
+        Paragraph(
+            "PLAIN-LANGUAGE VIEW",
+            section_title_style,
+        )
+    )
+
+    story.append(
+        Paragraph(
+            "Key provisions from your contract have been "
+            "organized into clear, plain-language sections.",
+            body_style,
+        )
+    )
+
+    # =========================================================
+    # SIMPLIFIED PROVISIONS
+    # =========================================================
+
+    simplified_sections = analyzer_results.get(
+        "simplified_sections",
+        []
+    )
+
+    if simplified_sections:
+
+        for index, section in enumerate(
+            simplified_sections,
+            start=1
+        ):
+
+            title = str(
+                section.get("title", "OTHER TERMS")
             )
+
+            simplified = str(
+                section.get("simplified", "")
+            )
+
+            original = str(
+                section.get("original", "")
+            )
+
+            # Number + content layout
+            number_table = Table(
+                [[
+                    Paragraph(
+                        f"{index:02d}",
+                        number_style,
+                    ),
+                    [
+                        Paragraph(
+                            title,
+                            section_title_style,
+                        ),
+                        Paragraph(
+                            simplified,
+                            body_style,
+                        ),
+                    ],
+                ]],
+                colWidths=[
+                    14 * mm,
+                    150 * mm,
+                ],
+            )
+
+            number_table.setStyle(
+                TableStyle([
+                    (
+                        "BACKGROUND",
+                        (0, 0),
+                        (0, 0),
+                        colors.HexColor("#172536"),
+                    ),
+                    (
+                        "VALIGN",
+                        (0, 0),
+                        (-1, -1),
+                        "TOP",
+                    ),
+                    (
+                        "LEFTPADDING",
+                        (0, 0),
+                        (0, 0),
+                        5,
+                    ),
+                    (
+                        "RIGHTPADDING",
+                        (0, 0),
+                        (0, 0),
+                        5,
+                    ),
+                    (
+                        "TOPPADDING",
+                        (0, 0),
+                        (0, 0),
+                        7,
+                    ),
+                    (
+                        "BOTTOMPADDING",
+                        (0, 0),
+                        (0, 0),
+                        7,
+                    ),
+                    (
+                        "LEFTPADDING",
+                        (1, 0),
+                        (1, 0),
+                        8,
+                    ),
+                    (
+                        "RIGHTPADDING",
+                        (1, 0),
+                        (1, 0),
+                        2,
+                    ),
+                    (
+                        "TOPPADDING",
+                        (1, 0),
+                        (1, 0),
+                        0,
+                    ),
+                    (
+                        "BOTTOMPADDING",
+                        (1, 0),
+                        (1, 0),
+                        0,
+                    ),
+                ])
+            )
+
+            story.append(number_table)
+            story.append(Spacer(1, 4 * mm))
+
     else:
+
         story.append(
             Paragraph(
-                "No simplified summary could be generated from this document.",
+                "No simplified provisions could be generated "
+                "from this document.",
                 body_style,
             )
         )
 
+    # =========================================================
+    # IMPORTANT TERMS
+    # =========================================================
+
     if language == "english":
-        keywords = analyzer_results.get("keywords", {}).get("keywords", [])
+
+        keywords = analyzer_results.get(
+            "keywords",
+            {}
+        ).get(
+            "keywords",
+            []
+        )
 
         if keywords:
-            story.append(Paragraph("IMPORTANT TERMS", heading_style))
 
-            data = [["Term", "Frequency"]]
-            for item in keywords[:10]:
+            story.append(
+                Spacer(1, 5 * mm)
+            )
+
+            story.append(
+                Paragraph(
+                    "IMPORTANT TERMS",
+                    heading_style,
+                )
+            )
+
+            story.append(
+                Paragraph(
+                    "Frequently occurring meaningful terms "
+                    "identified from the contract.",
+                    small_style,
+                )
+            )
+
+            story.append(
+                Spacer(1, 3 * mm)
+            )
+
+            data = [
+                ["Term", "Frequency"]
+            ]
+
+            for item in keywords[:8]:
+
                 data.append([
-                    str(item.get("word", "")),
-                    str(item.get("frequency", "")),
+                    str(
+                        item.get("word", "")
+                    ),
+                    str(
+                        item.get("frequency", "")
+                    ),
                 ])
 
-            table = Table(data, colWidths=[125 * mm, 35 * mm])
-            table.setStyle(TableStyle([
-                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#172536")),
-                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-                ("FONTNAME", (0, 0), (-1, -1), font_name),
-                ("FONTSIZE", (0, 0), (-1, -1), 9),
-                ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#deded9")),
-                ("BACKGROUND", (0, 1), (-1, -1), colors.HexColor("#f8f8f6")),
-                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                ("TOPPADDING", (0, 0), (-1, -1), 7),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 7),
-            ]))
+            table = Table(
+                data,
+                colWidths=[
+                    125 * mm,
+                    35 * mm
+                ],
+            )
+
+            table.setStyle(
+                TableStyle([
+                    (
+                        "BACKGROUND",
+                        (0, 0),
+                        (-1, 0),
+                        colors.HexColor("#172536"),
+                    ),
+                    (
+                        "TEXTCOLOR",
+                        (0, 0),
+                        (-1, 0),
+                        colors.white,
+                    ),
+                    (
+                        "FONTNAME",
+                        (0, 0),
+                        (-1, -1),
+                        font_name,
+                    ),
+                    (
+                        "FONTSIZE",
+                        (0, 0),
+                        (-1, -1),
+                        9,
+                    ),
+                    (
+                        "GRID",
+                        (0, 0),
+                        (-1, -1),
+                        0.4,
+                        colors.HexColor("#deded9"),
+                    ),
+                    (
+                        "BACKGROUND",
+                        (0, 1),
+                        (-1, -1),
+                        colors.HexColor("#f8f8f6"),
+                    ),
+                    (
+                        "VALIGN",
+                        (0, 0),
+                        (-1, -1),
+                        "MIDDLE",
+                    ),
+                    (
+                        "TOPPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        7,
+                    ),
+                    (
+                        "BOTTOMPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        7,
+                    ),
+                ])
+            )
+
             story.append(table)
 
     else:
-        legal_terms = analyzer_results.get("legal_terms", [])
+
+        legal_terms = analyzer_results.get(
+            "legal_terms",
+            []
+        )
+
         if legal_terms:
-            story.append(Paragraph("IMPORTANT LEGAL TERMS", heading_style))
+
+            story.append(
+                Paragraph(
+                    "IMPORTANT LEGAL TERMS",
+                    heading_style,
+                )
+            )
+
             for item in legal_terms[:10]:
-                term = item.get("text", "")
-                meaning = item.get("meaning", "")
+
+                term = item.get(
+                    "text",
+                    ""
+                )
+
+                meaning = item.get(
+                    "meaning",
+                    ""
+                )
+
                 story.append(
                     Paragraph(
                         f"<b>{term}</b> — {meaning}",
@@ -179,12 +489,29 @@ def create_simplified_report(text, language, analyzer_results):
                     )
                 )
 
-    story.append(Spacer(1, 8 * mm))
-    story.append(Paragraph(
-        "Generated by LexiNLP. This report summarizes the text processed by the application and is not legal advice.",
-        small_style,
-    ))
+    # =========================================================
+    # FOOTER / DISCLAIMER
+    # =========================================================
+
+    story.append(
+        Spacer(1, 8 * mm)
+    )
+
+    story.append(
+        Paragraph(
+            "Generated by LexiNLP. This report summarizes "
+            "the text processed by the application and is "
+            "not legal advice.",
+            small_style,
+        )
+    )
+
+    # =========================================================
+    # BUILD PDF
+    # =========================================================
 
     document.build(story)
+
     buffer.seek(0)
+
     return buffer

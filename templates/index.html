@@ -93,6 +93,343 @@
         }
 
         .simplify-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+        /* =====================================================
+   SIMPLIFIED CONTRACT REPORT
+   ===================================================== */
+
+.simplified-report {
+    margin-top: 28px;
+}
+
+.simplified-report-header {
+    padding: 30px 32px;
+    background: #ffffff;
+    border: 1px solid var(--border, #deded9);
+}
+
+.simplified-report-header h3 {
+    margin: 6px 0 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 30px;
+    color: var(--navy, #172536);
+}
+
+.simplified-report-header p {
+    margin: 9px 0 0;
+    max-width: 720px;
+    color: var(--text-light, #5f6873);
+    line-height: 1.6;
+}
+
+/* =====================================================
+   SUMMARY ITEMS
+   ===================================================== */
+
+.simplified-summary {
+    border: 1px solid var(--border, #deded9);
+    border-top: none;
+    background: #ffffff;
+}
+
+.simplified-summary-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 18px;
+    padding: 24px 32px;
+    border-top: 1px solid var(--border, #deded9);
+}
+
+.simplified-summary-item:first-child {
+    border-top: none;
+}
+
+.simplified-summary-item:hover {
+    background: #fafaf8;
+}
+
+.simplified-summary-number {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--navy, #172536);
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.simplified-summary-content {
+    min-width: 0;
+}
+
+.simplified-summary-label {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+
+    color: var(--gold, #b38a48);
+}
+
+.simplified-summary-content p {
+    margin: 0;
+
+    color: var(--text, #202733);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* =====================================================
+   STRUCTURED SIMPLIFIED PROVISIONS
+   ===================================================== */
+
+.simplified-provisions {
+    border: 1px solid var(--border, #deded9);
+    border-top: none;
+    background: #ffffff;
+}
+
+.simplified-provision {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 20px;
+
+    padding: 28px 32px;
+
+    border-top: 1px solid var(--border, #deded9);
+}
+
+.simplified-provision:first-child {
+    border-top: none;
+}
+
+.simplified-provision:hover {
+    background: #fafaf8;
+}
+
+.simplified-provision-number {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--navy, #172536);
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.simplified-provision-content {
+    min-width: 0;
+}
+
+.simplified-provision-title {
+    margin-bottom: 8px;
+
+    color: var(--gold, #b38a48);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.simplified-provision-content p {
+    margin: 0;
+
+    color: var(--text, #202733);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .simplified-provision {
+        grid-template-columns: 40px 1fr;
+        gap: 14px;
+        padding: 22px;
+    }
+
+    .simplified-provision-number {
+        width: 34px;
+        height: 34px;
+    }
+
+    .simplified-provision-content p {
+        font-size: 14px;
+    }
+
+}
+
+/* =====================================================
+   EMPTY RESULT
+   ===================================================== */
+
+.simplified-empty {
+    padding: 30px;
+    border: 1px solid var(--border, #deded9);
+    border-top: none;
+    background: #ffffff;
+    color: var(--text-light, #5f6873);
+}
+
+/* =====================================================
+   IMPORTANT TERMS
+   ===================================================== */
+
+.simplified-terms {
+    margin-top: 20px;
+    padding: 28px 32px;
+
+    border: 1px solid var(--border, #deded9);
+    background: #ffffff;
+}
+
+.simplified-terms-header {
+    margin-bottom: 20px;
+}
+
+.simplified-terms-header h3 {
+    margin: 6px 0 0;
+
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 24px;
+
+    color: var(--navy, #172536);
+}
+
+.simplified-terms-header p {
+    margin: 7px 0 0;
+    color: var(--text-light, #5f6873);
+    font-size: 13px;
+}
+
+.simplified-term-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.simplified-term {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 9px 13px;
+
+    border: 1px solid var(--border, #deded9);
+    background: #fafaf8;
+
+    color: var(--text, #202733);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.simplified-term-frequency {
+    min-width: 21px;
+    height: 21px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--navy, #172536);
+    color: #ffffff;
+
+    font-size: 10px;
+}
+
+/* =====================================================
+   DOWNLOAD AREA
+   ===================================================== */
+
+.simplified-report-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.simplified-report-note {
+    margin-right: auto;
+    color: var(--text-light, #5f6873);
+    font-size: 12px;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .simplified-report-header {
+        padding: 24px;
+    }
+
+    .simplified-report-header h3 {
+        font-size: 26px;
+    }
+
+    .simplified-summary-item {
+        grid-template-columns: 40px 1fr;
+        gap: 13px;
+        padding: 21px;
+    }
+
+    .simplified-summary-number {
+        width: 34px;
+        height: 34px;
+    }
+
+    .simplified-summary-content p {
+        font-size: 14px;
+    }
+
+    .simplified-terms {
+        padding: 24px 21px;
+    }
+
+    .simplified-report-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .simplified-report-note {
+        margin-right: 0;
+    }
+
+    .simplified-report-actions form,
+    .simplified-report-actions .btn {
+        width: 100%;
+    }
+}
+
+        .simplify-actions {
             display: flex;
             justify-content: flex-end;
             margin-top: 20px;
@@ -681,115 +1018,165 @@
 
     {% if results %}
 
-    <div class="simplify-result">
+<div class="simplify-result">
 
-        <div class="result-card">
+    <div class="simplified-report">
 
-            <div class="result-card-header">
+        <!-- HEADER -->
 
-                <div>
-                    <div class="section-eyebrow">PLAIN-LANGUAGE VIEW</div>
-                    <h3>Contract Made Simpler</h3>
-                    <p>Key information and a concise summary extracted from the submitted contract.</p>
-                </div>
+        <div class="simplified-report-header">
 
-                {% if language == "english" %}
-                <span class="count-badge">{{ results["summary"]["summary"]|length }}</span>
-                {% else %}
-                <span class="count-badge">{{ results["sentences"]|length }}</span>
-                {% endif %}
-
+            <div class="section-eyebrow">
+                PLAIN-LANGUAGE VIEW
             </div>
 
-            {% if language == "english" %}
+            <h3>
+                Contract Made Simpler
+            </h3>
 
-            {% if results["summary"]["summary"] %}
-            <div class="summary-content">
-                {% for sentence in results["summary"]["summary"] %}
-                <div class="summary-item">
-                    <span class="summary-number">{{ "%02d"|format(loop.index) }}</span>
-                    <p>{{ sentence }}</p>
-                </div>
-                {% endfor %}
-            </div>
-            {% else %}
-            <div class="empty-result">No simplified summary could be generated.</div>
-            {% endif %}
-
-            {% else %}
-
-            <div class="summary-content">
-                {% for sentence in results["sentences"] %}
-                <div class="summary-item">
-                    <span class="summary-number">{{ "%02d"|format(loop.index) }}</span>
-                    <p class="hindi-text">{{ sentence }}</p>
-                </div>
-                {% endfor %}
-            </div>
-
-            {% endif %}
+            <p>
+                Key provisions from your contract have been
+                organized into clear, plain-language sections.
+            </p>
 
         </div>
 
-        {% if language == "english" and results["keywords"]["keywords"] %}
 
-        <div class="result-card" style="margin-top: 20px;">
+        <!-- SIMPLIFIED PROVISIONS -->
 
-            <div class="result-card-header">
-                <div>
-                    <div class="section-eyebrow">KEY TERMS</div>
-                    <h3>Important Terms at a Glance</h3>
+        {% if results["simplified_sections"] %}
+
+        <div class="simplified-provisions">
+
+            {% for section in results["simplified_sections"] %}
+
+            <div class="simplified-provision">
+
+                <div class="simplified-provision-number">
+                    {{ "%02d"|format(loop.index) }}
                 </div>
+
+                <div class="simplified-provision-content">
+
+                    <div class="simplified-provision-title">
+                        {{ section["title"] }}
+                    </div>
+
+                    <p>
+                        {{ section["simplified"] }}
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="keyword-list">
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="simplified-empty">
+            No simplified provisions could be generated from this contract.
+        </div>
+
+        {% endif %}
+
+
+        <!-- IMPORTANT TERMS -->
+
+        {% if results["keywords"]["keywords"] %}
+
+        <div class="simplified-terms">
+
+            <div class="simplified-terms-header">
+
+                <div class="section-eyebrow">
+                    KEY TERMS
+                </div>
+
+                <h3>
+                    Important Terms at a Glance
+                </h3>
+
+                <p>
+                    Frequently occurring meaningful terms identified
+                    from the contract.
+                </p>
+
+            </div>
+
+            <div class="simplified-term-list">
+
                 {% for item in results["keywords"]["keywords"][:8] %}
-                <div class="keyword-item">
-                    <span class="keyword-word">{{ item["word"] }}</span>
-                    <span class="keyword-frequency">{{ item["frequency"] }}</span>
+
+                <div class="simplified-term">
+
+                    <span>
+                        {{ item["word"] }}
+                    </span>
+
+                    <span class="simplified-term-frequency">
+                        {{ item["frequency"] }}
+                    </span>
+
                 </div>
+
                 {% endfor %}
-            </div>
 
-        </div>
-
-        {% elif language == "hindi" and results["legal_terms"] %}
-
-        <div class="result-card" style="margin-top: 20px;">
-
-            <div class="result-card-header">
-                <div>
-                    <div class="section-eyebrow">LEGAL TERMS</div>
-                    <h3>Important Terms at a Glance</h3>
-                </div>
-            </div>
-
-            <div class="keyword-list">
-                {% for item in results["legal_terms"][:8] %}
-                <div class="keyword-item">
-                    <span class="keyword-word hindi-text">{{ item["text"] }}</span>
-                </div>
-                {% endfor %}
             </div>
 
         </div>
 
         {% endif %}
 
-        <div class="simplify-actions">
-            <form method="POST" action="{{ url_for('download_report') }}">
-                <input type="hidden" name="contract_text" value="{{ text }}">
-                <input type="hidden" name="language" value="{{ language }}">
-                <button type="submit" class="btn btn-primary">
+
+        <!-- DOWNLOAD REPORT -->
+
+        <div class="simplified-report-actions">
+
+            <span class="simplified-report-note">
+                Save a PDF version of this simplified contract report.
+            </span>
+
+            <form
+                method="POST"
+                action="{{ url_for('download_report') }}"
+            >
+
+                <input
+                    type="hidden"
+                    name="contract_text"
+                    value="{{ text }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="language"
+                    value="{{ language }}"
+                >
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
                     Download Simplified Report
-                    <span class="button-arrow">↓</span>
+                    <span class="button-arrow">
+                        ↓
+                    </span>
                 </button>
+
             </form>
+
         </div>
 
     </div>
 
-    {% endif %}
+</div>
+
+{% endif %}
+
+    
 
 </section>
 
