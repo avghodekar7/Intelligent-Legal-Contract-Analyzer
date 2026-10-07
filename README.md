@@ -1,121 +1,111 @@
-# LegalLens -- Intelligent Legal Contract Analyzer
+# LegalLens – Intelligent Legal Contract Analyzer
 
-LegalLens is a bilingual legal contract analysis system that uses Natural
-Language Processing (NLP) to analyze legal documents and extract
-important linguistic, legal, and contractual information.
+LegalLens is a bilingual legal contract analysis system that uses Natural Language Processing (NLP) to analyze legal documents and extract important linguistic, legal, and contractual information.
 
-The system supports both **English and Hindi contracts** and provides a
-structured analysis of contract text or uploaded PDF documents.
+The system supports **English and Hindi contracts** and provides structured analysis of contract text or uploaded PDF documents.
 
-------------------------------------------------------------------------
+---
 
 ## Features
 
 ### Contract Analysis
 
--   English and Hindi contract analysis
--   Text-based contract input
--   PDF contract upload and text extraction
--   Named Entity Recognition (NER)
--   Legal entity extraction
--   Legal term identification
--   Legal clause detection
--   Keyword extraction
+- English and Hindi contract analysis
+- Text-based contract input
+- PDF contract upload and text extraction
+- Named Entity Recognition (NER)
+- Legal entity extraction
+- Legal term identification
+- Legal clause detection
+- Keyword extraction
 
 ### Linguistic Analysis
 
--   Tokenization
--   Part-of-Speech (POS) analysis
--   Lemmatization
--   Morphological analysis
--   Sentence analysis
--   N-gram analysis
--   Chunking
+- Tokenization
+- Part-of-Speech (POS) analysis
+- Lemmatization
+- Morphological analysis
+- Sentence analysis
+- N-gram analysis
+- Chunking
 
 ### Contract Understanding
 
--   Contract summarization
--   Contract simplification
--   Important clause identification
--   Notice period detection
--   Contract comparison
+- Contract summarization
+- Contract simplification
+- Important clause identification
+- Notice period detection
+- Contract comparison
+- Downloadable analysis reports
 
 ### Contract Risk Assessment
 
-LegalLens also provides an **indicative contract risk assessment** based
-on predefined NLP rules.
+LegalLens provides an **indicative contract risk assessment** using predefined bilingual NLP rules and heuristics.
 
-The system identifies potentially unfavorable contractual conditions
-such as:
+The system identifies potentially unfavorable contractual conditions such as:
 
--   Automatic renewal
--   Long notice periods
--   Termination penalties
--   Unlimited liability
--   Broad indemnity clauses
--   Non-compete clauses
--   One-sided termination
--   Unilateral modification
--   Late payment penalties
+- Automatic renewal
+- Long notice periods
+- Termination penalties
+- Unlimited liability
+- Broad indemnity clauses
+- Non-compete clauses
+- One-sided termination
+- Unilateral modification
+- Late payment penalties
 
-The detected factors contribute to an overall risk score from **0 to
-100**.
+The detected factors contribute to an overall risk score from **0 to 100**.
 
-      Score Risk Level
-  --------- ------------
-      0--30 Low
-     31--60 Medium
-    61--100 High
+| Score | Risk Level |
+|------:|------------|
+| 0–30 | Low |
+| 31–60 | Medium |
+| 61–100 | High |
 
-The system also provides recommendations based on the detected risk
-factors.
+LegalLens also provides recommendations based on detected risk factors.
 
-> **Disclaimer:** The risk assessment is an indicative, project-defined
-> NLP-based heuristic and does not constitute legal advice or determine
-> whether a contract is legally safe.
+> **Disclaimer:** The risk assessment is an indicative, project-defined NLP-based heuristic. It does not constitute legal advice or determine whether a contract is legally safe.
 
-------------------------------------------------------------------------
+---
 
 ## Technology Stack
 
--   **Python**
--   **Flask**
--   **spaCy**
--   **Stanza**
--   **Natural Language Processing**
--   **Jinja2**
--   **HTML5**
--   **CSS3**
--   **PDF text extraction**
+- **Python**
+- **Flask**
+- **spaCy**
+- **Stanza**
+- **Natural Language Processing**
+- **Jinja2**
+- **HTML5**
+- **CSS3**
+- **PDF text extraction**
 
-------------------------------------------------------------------------
+---
 
 ## NLP Models
 
 ### English
 
-The project uses:
-
-``` text
+```text
 spaCy 3.8.16
 en_core_web_sm 3.8.0
 ```
 
 ### Hindi
 
-Hindi linguistic analysis is performed using:
+Hindi linguistic analysis uses:
 
-``` text
+```text
 Stanza
 ```
 
 with tokenization, POS tagging, and lemmatization.
 
-------------------------------------------------------------------------
+---
 
 ## Project Structure
 
-``` text
+```text
 Intelligent-Legal-Contract-Analyzer/
 │
 ├── app.py
@@ -145,113 +135,160 @@ Intelligent-Legal-Contract-Analyzer/
 └── README.md
 ```
 
-------------------------------------------------------------------------
+---
 
 ## How It Works
 
-The general processing pipeline is:
-
-``` text
-Contract Input
-      │
-      ▼
-Text / PDF Extraction
-      │
-      ▼
-Language Selection
-   ┌──┴──┐
-English  Hindi
-   │      │
-   ▼      ▼
-NLP Processing
-      │
-      ▼
-Entity & Legal Term Extraction
-      │
-      ▼
-Clause & Linguistic Analysis
-      │
-      ▼
-Risk Assessment
-      │
-      ▼
-Summary / Simplification / Report
+```text
+                    Contract Input
+                          │
+                          ▼
+                Text / PDF Extraction
+                          │
+                          ▼
+                    Language Selection
+                     ┌────┴────┐
+                     ▼         ▼
+                  English     Hindi
+                     │         │
+                     └────┬────┘
+                          ▼
+                    NLP Processing
+                          │
+                          ▼
+             Entity & Legal Term Extraction
+                          │
+                          ▼
+              Clause & Linguistic Analysis
+                          │
+                          ▼
+                  Risk Assessment
+                          │
+                          ▼
+             Summary / Simplification
+                          │
+                          ▼
+                Report Generation
 ```
 
-------------------------------------------------------------------------
+---
 
 ## Installation
 
 ### 1. Clone the repository
 
-``` bash
-git clone <your-github-repository-url>
+```bash
+git clone https://github.com/avghodekar7/LegalLens.git
 ```
 
 ### 2. Navigate to the project
 
-``` bash
-cd Intelligent-Legal-Contract-Analyzer
+```bash
+cd LegalLens
 ```
+
+If you are using the existing local folder, you can continue working from it without renaming the folder.
 
 ### 3. Create a virtual environment
 
-``` bash
+```bash
 python -m venv .venv
 ```
 
 ### 4. Activate the virtual environment
 
-#### Windows
+#### Windows PowerShell
 
-``` powershell
+```powershell
 .venv\Scripts\activate
 ```
 
 ### 5. Install dependencies
 
-``` bash
+```bash
 pip install -r requirements.txt
 ```
 
 ### 6. Install the English spaCy model
 
-``` bash
+```bash
 python -m spacy download en_core_web_sm
 ```
 
-------------------------------------------------------------------------
+### 7. Hindi NLP resources
+
+The Hindi analyzer uses Stanza for tokenization, POS tagging, and lemmatization. Ensure the required Hindi Stanza resources are available in the environment before performing Hindi analysis.
+
+---
 
 ## Running the Application
 
 Start the Flask application:
 
-``` bash
+```bash
 python app.py
 ```
 
 The application will be available at:
 
-``` text
+```text
 http://127.0.0.1:5000
 ```
 
-Open the address in a web browser.
+Open this address in a web browser.
 
-------------------------------------------------------------------------
+---
+
+## Demonstration
+
+LegalLens can be demonstrated using realistic English and Hindi employment contracts.
+
+### English Contract
+
+A demonstration contract can contain:
+
+- Employee appointment and salary
+- Contract duration
+- Automatic renewal
+- Notice period
+- Termination conditions
+- Termination penalty
+- Confidentiality
+- Non-compete restrictions
+- Liability
+- Dispute jurisdiction
+
+### Hindi Contract
+
+A Hindi demonstration contract can contain equivalent clauses covering:
+
+- कर्मचारी का पद और वेतन
+- अनुबंध की अवधि
+- स्वतः नवीनीकरण
+- नोटिस अवधि
+- रोजगार समाप्ति
+- समाप्ति शुल्क
+- गोपनीयता
+- प्रतिस्पर्धा प्रतिबंध
+- दायित्व
+- न्यायालय का अधिकार क्षेत्र
+
+This demonstrates that LegalLens performs both contractual analysis and linguistic analysis in English and Hindi.
+
+---
 
 ## Example Risk Assessment
 
 For example, a contract containing:
 
-``` text
+```text
 The agreement shall automatically renew.
 The employee shall be liable for all losses.
 ```
 
 may produce:
 
-``` text
+```text
 Risk Score: 35 / 100
 Risk Level: Medium
 
@@ -260,37 +297,68 @@ Detected Factors:
 - Unlimited Liability
 ```
 
-The system then provides recommendations for reviewing the identified
-contractual conditions.
+The system then provides recommendations for reviewing the identified contractual conditions.
 
-------------------------------------------------------------------------
+The same risk assessment functionality can be applied to supported Hindi contractual wording.
+
+---
+
+## Key Workflow
+
+```text
+User enters or uploads a contract
+              ↓
+Selects English or Hindi
+              ↓
+LegalLens processes the document
+              ↓
+NLP and linguistic analysis
+              ↓
+Legal entities and clauses extracted
+              ↓
+Contract summarized / simplified
+              ↓
+Risk indicators detected
+              ↓
+Risk score generated
+              ↓
+Recommendations displayed
+              ↓
+Analysis report downloaded
+```
+
+---
 
 ## Limitations
 
--   Risk assessment is rule-based and indicative.
--   The system does not provide legal advice.
--   Detection depends on the wording present in the contract.
--   The current implementation is intended primarily for academic and
-    educational purposes.
--   Complex legal interpretations may require review by a qualified
-    legal professional.
+- Risk assessment is rule-based and indicative.
+- Risk detection depends on the wording present in the contract.
+- The system does not provide legal advice.
+- NLP results may vary depending on the quality, language, and structure of the input.
+- Complex legal interpretation may require review by a qualified legal professional.
+- The implementation is primarily intended for academic and educational purposes.
 
-------------------------------------------------------------------------
+---
 
 ## Project Purpose
 
-LegalLens is developed as an academic NLP project to demonstrate how
-Natural Language Processing techniques can be applied to legal documents
-for information extraction, linguistic analysis, contract understanding,
-and preliminary risk identification.
+LegalLens is an academic NLP project developed to demonstrate how Natural Language Processing techniques can be applied to legal documents for:
 
-------------------------------------------------------------------------
+- Information extraction
+- Linguistic analysis
+- Legal term identification
+- Contract understanding
+- Clause analysis
+- Contract summarization
+- Contract simplification
+- Preliminary risk identification
+
+The project demonstrates these capabilities through a single bilingual web-based interface supporting **English and Hindi legal contracts**.
+
+---
 
 ## Disclaimer
 
-LegalLens is an academic/project implementation intended for educational
-and research purposes.
+LegalLens is an academic/project implementation intended for educational and research purposes.
 
-The information generated by the system should not be considered
-professional legal advice. Users should consult a qualified legal
-professional for legal interpretation or contractual decisions.
+The information generated by the system should not be considered professional legal advice. The risk score is an indicative heuristic based on predefined project rules and should not be used as a substitute for review by a qualified legal professional.
