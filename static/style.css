@@ -2376,3 +2376,335 @@ tbody tr:hover {
         min-width: 130px;
     }
 }
+
+/* =========================================================
+   CONTRACT RISK ASSESSMENT
+   ========================================================= */
+
+.risk-card {
+    margin-top: 28px;
+    background: #ffffff;
+    border: 1px solid var(--border, #deded9);
+    overflow: hidden;
+}
+
+.risk-card .result-card-header {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border, #deded9);
+}
+
+.risk-card .result-card-header h3 {
+    margin: 6px 0 8px;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 28px;
+    color: var(--navy, #172536);
+}
+
+.risk-card .result-card-header p {
+    margin: 0;
+    max-width: 700px;
+    color: var(--text-light, #5f6873);
+    line-height: 1.6;
+}
+
+
+/* ---------------------------------------------------------
+   RISK LEVEL BADGE
+   --------------------------------------------------------- */
+
+.risk-level {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 13px;
+
+    border: 1px solid currentColor;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.risk-low {
+    color: #3f6b50;
+    background: #f1f7f2;
+}
+
+.risk-medium {
+    color: #9a7028;
+    background: #fbf6ea;
+}
+
+.risk-high {
+    color: #9b4d43;
+    background: #fbefed;
+}
+
+
+/* ---------------------------------------------------------
+   SCORE
+   --------------------------------------------------------- */
+
+.risk-score-section {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+
+    padding: 26px 32px;
+
+    background: #fafaf8;
+    border-bottom: 1px solid var(--border, #deded9);
+}
+
+.risk-score {
+    display: flex;
+    align-items: baseline;
+}
+
+.risk-score strong {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--navy, #172536);
+}
+
+.risk-score span {
+    margin-left: 5px;
+    font-size: 15px;
+    color: var(--text-light, #5f6873);
+}
+
+.risk-score-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-light, #5f6873);
+}
+
+
+/* ---------------------------------------------------------
+   RISK FACTORS
+   --------------------------------------------------------- */
+
+.risk-factors {
+    padding: 26px 32px;
+}
+
+.risk-factors h4,
+.risk-recommendations h4 {
+    margin: 0 0 14px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+
+    color: var(--gold, #b38a48);
+}
+
+.risk-factor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 15px 0;
+
+    border-top: 1px solid var(--border, #deded9);
+}
+
+.risk-factor:first-of-type {
+    border-top: none;
+}
+
+.risk-factor-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.risk-warning {
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #d9c8a5;
+
+    color: #9a7028;
+    background: #fbf6ea;
+
+    font-size: 12px;
+}
+
+.risk-factor-info strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 14px;
+    color: var(--navy, #172536);
+}
+
+.risk-factor-info small {
+    display: block;
+
+    color: var(--text-light, #5f6873);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.risk-points {
+    flex-shrink: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #9b4d43;
+}
+
+
+/* ---------------------------------------------------------
+   REVIEW SUGGESTIONS
+   --------------------------------------------------------- */
+
+.risk-recommendations {
+    padding: 26px 32px;
+
+    background: #fafaf8;
+    border-top: 1px solid var(--border, #deded9);
+}
+
+.risk-recommendations ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.risk-recommendations li {
+    position: relative;
+
+    padding: 9px 0 9px 20px;
+
+    color: var(--text, #202733);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.risk-recommendations li::before {
+    content: "→";
+
+    position: absolute;
+    left: 0;
+
+    color: var(--gold, #b38a48);
+    font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   NO RISK MESSAGE
+   --------------------------------------------------------- */
+
+.risk-safe-message {
+    padding: 26px 32px;
+
+    color: #3f6b50;
+    background: #f1f7f2;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ---------------------------------------------------------
+   DISCLAIMER
+   --------------------------------------------------------- */
+
+.risk-disclaimer {
+    padding: 18px 32px;
+
+    border-top: 1px solid var(--border, #deded9);
+
+    color: var(--text-light, #68717c);
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.risk-disclaimer strong {
+    color: var(--navy, #172536);
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 700px) {
+
+    .risk-card .result-card-header {
+        padding: 22px;
+    }
+
+    .risk-score-section,
+    .risk-factors,
+    .risk-recommendations,
+    .risk-disclaimer {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+    .risk-card .result-card-header {
+        display: block;
+    }
+
+    .risk-level {
+        margin-top: 18px;
+    }
+
+    .risk-score strong {
+        font-size: 38px;
+    }
+
+    .risk-factor {
+        align-items: flex-start;
+    }
+}
+
+/* =========================================================
+   BILINGUAL RISK ASSESSMENT
+   ========================================================= */
+
+.risk-card[dir="rtl"] {
+    text-align: right;
+}
+
+.risk-card[dir="rtl"] .risk-factor-info {
+    flex-direction: row-reverse;
+}
+
+.risk-card[dir="rtl"] .risk-recommendations li {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+.risk-card[dir="rtl"] .risk-recommendations li::before {
+    left: auto;
+    right: 0;
+}
+
+.risk-card[dir="rtl"] .risk-score-section {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}

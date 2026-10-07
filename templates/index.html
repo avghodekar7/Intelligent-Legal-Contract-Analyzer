@@ -18,13 +18,15 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='style.css') }}"
     >
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+
         /* =====================================================
            MAIN FEATURE TABS
            ===================================================== */
-        
+
         .hidden {
             display: none !important;
         }
@@ -93,360 +95,437 @@
         }
 
         .simplify-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-        /* =====================================================
-   SIMPLIFIED CONTRACT REPORT
-   ===================================================== */
-
-.simplified-report {
-    margin-top: 28px;
-}
-
-.simplified-report-header {
-    padding: 30px 32px;
-    background: #ffffff;
-    border: 1px solid var(--border, #deded9);
-}
-
-.simplified-report-header h3 {
-    margin: 6px 0 0;
-    font-family: "Playfair Display", Georgia, serif;
-    font-size: 30px;
-    color: var(--navy, #172536);
-}
-
-.simplified-report-header p {
-    margin: 9px 0 0;
-    max-width: 720px;
-    color: var(--text-light, #5f6873);
-    line-height: 1.6;
-}
-
-/* =====================================================
-   SUMMARY ITEMS
-   ===================================================== */
-
-.simplified-summary {
-    border: 1px solid var(--border, #deded9);
-    border-top: none;
-    background: #ffffff;
-}
-
-.simplified-summary-item {
-    display: grid;
-    grid-template-columns: 48px 1fr;
-    gap: 18px;
-    padding: 24px 32px;
-    border-top: 1px solid var(--border, #deded9);
-}
-
-.simplified-summary-item:first-child {
-    border-top: none;
-}
-
-.simplified-summary-item:hover {
-    background: #fafaf8;
-}
-
-.simplified-summary-number {
-    width: 36px;
-    height: 36px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--navy, #172536);
-    color: #ffffff;
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.simplified-summary-content {
-    min-width: 0;
-}
-
-.simplified-summary-label {
-    display: block;
-    margin-bottom: 6px;
-
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-
-    color: var(--gold, #b38a48);
-}
-
-.simplified-summary-content p {
-    margin: 0;
-
-    color: var(--text, #202733);
-
-    font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-/* =====================================================
-   STRUCTURED SIMPLIFIED PROVISIONS
-   ===================================================== */
-
-.simplified-provisions {
-    border: 1px solid var(--border, #deded9);
-    border-top: none;
-    background: #ffffff;
-}
-
-.simplified-provision {
-    display: grid;
-    grid-template-columns: 52px 1fr;
-    gap: 20px;
-
-    padding: 28px 32px;
-
-    border-top: 1px solid var(--border, #deded9);
-}
-
-.simplified-provision:first-child {
-    border-top: none;
-}
-
-.simplified-provision:hover {
-    background: #fafaf8;
-}
-
-.simplified-provision-number {
-    width: 38px;
-    height: 38px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--navy, #172536);
-    color: #ffffff;
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.simplified-provision-content {
-    min-width: 0;
-}
-
-.simplified-provision-title {
-    margin-bottom: 8px;
-
-    color: var(--gold, #b38a48);
-
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-}
-
-.simplified-provision-content p {
-    margin: 0;
-
-    color: var(--text, #202733);
-
-    font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-    .simplified-provision {
-        grid-template-columns: 40px 1fr;
-        gap: 14px;
-        padding: 22px;
-    }
-
-    .simplified-provision-number {
-        width: 34px;
-        height: 34px;
-    }
-
-    .simplified-provision-content p {
-        font-size: 14px;
-    }
-
-}
-
-/* =====================================================
-   EMPTY RESULT
-   ===================================================== */
-
-.simplified-empty {
-    padding: 30px;
-    border: 1px solid var(--border, #deded9);
-    border-top: none;
-    background: #ffffff;
-    color: var(--text-light, #5f6873);
-}
-
-/* =====================================================
-   IMPORTANT TERMS
-   ===================================================== */
-
-.simplified-terms {
-    margin-top: 20px;
-    padding: 28px 32px;
-
-    border: 1px solid var(--border, #deded9);
-    background: #ffffff;
-}
-
-.simplified-terms-header {
-    margin-bottom: 20px;
-}
-
-.simplified-terms-header h3 {
-    margin: 6px 0 0;
-
-    font-family: "Playfair Display", Georgia, serif;
-    font-size: 24px;
-
-    color: var(--navy, #172536);
-}
-
-.simplified-terms-header p {
-    margin: 7px 0 0;
-    color: var(--text-light, #5f6873);
-    font-size: 13px;
-}
-
-.simplified-term-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.simplified-term {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-
-    padding: 9px 13px;
-
-    border: 1px solid var(--border, #deded9);
-    background: #fafaf8;
-
-    color: var(--text, #202733);
-
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.simplified-term-frequency {
-    min-width: 21px;
-    height: 21px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: var(--navy, #172536);
-    color: #ffffff;
-
-    font-size: 10px;
-}
-
-/* =====================================================
-   DOWNLOAD AREA
-   ===================================================== */
-
-.simplified-report-actions {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.simplified-report-note {
-    margin-right: auto;
-    color: var(--text-light, #5f6873);
-    font-size: 12px;
-}
-
-/* =====================================================
-   MOBILE
-   ===================================================== */
-
-@media (max-width: 700px) {
-
-    .simplified-report-header {
-        padding: 24px;
-    }
-
-    .simplified-report-header h3 {
-        font-size: 26px;
-    }
-
-    .simplified-summary-item {
-        grid-template-columns: 40px 1fr;
-        gap: 13px;
-        padding: 21px;
-    }
-
-    .simplified-summary-number {
-        width: 34px;
-        height: 34px;
-    }
-
-    .simplified-summary-content p {
-        font-size: 14px;
-    }
-
-    .simplified-terms {
-        padding: 24px 21px;
-    }
-
-    .simplified-report-actions {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-    }
-
-    .simplified-report-note {
-        margin-right: 0;
-    }
-
-    .simplified-report-actions form,
-    .simplified-report-actions .btn {
-        width: 100%;
-    }
-}
-
-        .simplify-actions {
             display: flex;
             justify-content: flex-end;
             margin-top: 20px;
         }
 
-        @media (max-width: 700px) {
-            .feature-tabs {
-                overflow-x: auto;
-                justify-content: flex-start;
-            }
+        /* =====================================================
+           SIMPLIFIED CONTRACT REPORT
+           ===================================================== */
 
-            .feature-tab {
-                flex: 1 0 auto;
-                padding: 13px 15px;
-                white-space: nowrap;
-            }
+        .simplified-report {
+            margin-top: 28px;
         }
+
+        .simplified-report-header {
+            padding: 30px 32px;
+            background: #ffffff;
+            border: 1px solid var(--border, #deded9);
+        }
+
+        .simplified-report-header h3 {
+            margin: 6px 0 0;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 30px;
+            color: var(--navy, #172536);
+        }
+
+        .simplified-report-header p {
+            margin: 9px 0 0;
+            max-width: 720px;
+            color: var(--text-light, #5f6873);
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           SUMMARY ITEMS
+           ===================================================== */
+
+        .simplified-summary {
+            border: 1px solid var(--border, #deded9);
+            border-top: none;
+            background: #ffffff;
+        }
+
+        .simplified-summary-item {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 18px;
+            padding: 24px 32px;
+            border-top: 1px solid var(--border, #deded9);
+        }
+
+        .simplified-summary-item:first-child {
+            border-top: none;
+        }
+
+        .simplified-summary-item:hover {
+            background: #fafaf8;
+        }
+
+        .simplified-summary-number {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--navy, #172536);
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .simplified-summary-content {
+            min-width: 0;
+        }
+
+        .simplified-summary-label {
+            display: block;
+            margin-bottom: 6px;
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+
+            color: var(--gold, #b38a48);
+        }
+
+        .simplified-summary-content p {
+            margin: 0;
+
+            color: var(--text, #202733);
+
+            font-family: "DM Sans", sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           STRUCTURED SIMPLIFIED PROVISIONS
+           ===================================================== */
+
+        .simplified-provisions {
+            border: 1px solid var(--border, #deded9);
+            border-top: none;
+            background: #ffffff;
+        }
+
+        .simplified-provision {
+            display: grid;
+            grid-template-columns: 52px 1fr;
+            gap: 20px;
+
+            padding: 28px 32px;
+
+            border-top: 1px solid var(--border, #deded9);
+        }
+
+        .simplified-provision:first-child {
+            border-top: none;
+        }
+
+        .simplified-provision:hover {
+            background: #fafaf8;
+        }
+
+        .simplified-provision-number {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--navy, #172536);
+            color: #ffffff;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .simplified-provision-content {
+            min-width: 0;
+        }
+
+        .simplified-provision-title {
+            margin-bottom: 8px;
+
+            color: var(--gold, #b38a48);
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .simplified-provision-content p {
+            margin: 0;
+
+            color: var(--text, #202733);
+
+            font-family: "DM Sans", sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           EMPTY RESULT
+           ===================================================== */
+
+        .simplified-empty {
+            padding: 30px;
+            border: 1px solid var(--border, #deded9);
+            border-top: none;
+            background: #ffffff;
+            color: var(--text-light, #5f6873);
+        }
+
+        /* =====================================================
+           IMPORTANT TERMS
+           ===================================================== */
+
+        .simplified-terms {
+            margin-top: 20px;
+            padding: 28px 32px;
+
+            border: 1px solid var(--border, #deded9);
+            background: #ffffff;
+        }
+
+        .simplified-terms-header {
+            margin-bottom: 20px;
+        }
+
+        .simplified-terms-header h3 {
+            margin: 6px 0 0;
+
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 24px;
+
+            color: var(--navy, #172536);
+        }
+
+        .simplified-terms-header p {
+            margin: 7px 0 0;
+            color: var(--text-light, #5f6873);
+            font-size: 13px;
+        }
+
+        .simplified-term-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .simplified-term {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 9px 13px;
+
+            border: 1px solid var(--border, #deded9);
+            background: #fafaf8;
+
+            color: var(--text, #202733);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .simplified-term-frequency {
+            min-width: 21px;
+            height: 21px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: var(--navy, #172536);
+            color: #ffffff;
+
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           RISK ASSESSMENT
+           ===================================================== */
+
+        .risk-card {
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .risk-card .result-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .risk-card .result-card-header p {
+            margin-top: 8px;
+            max-width: 700px;
+            color: var(--text-light, #5f6873);
+            line-height: 1.6;
+        }
+
+        .risk-score-section {
+            padding: 28px 32px;
+            border-top: 1px solid var(--border, #deded9);
+            border-bottom: 1px solid var(--border, #deded9);
+        }
+
+        .risk-score {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .risk-score strong {
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 52px;
+            line-height: 1;
+            color: var(--navy, #172536);
+        }
+
+        .risk-score span {
+            font-size: 18px;
+            color: var(--text-light, #5f6873);
+        }
+
+        .risk-score-label {
+            margin-top: 7px;
+            color: var(--text-light, #5f6873);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .risk-level {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            white-space: nowrap;
+        }
+
+        .risk-low {
+            background: #edf5ee;
+            color: #3e6847;
+        }
+
+        .risk-medium {
+            background: #f7f1e5;
+            color: #8a682b;
+        }
+
+        .risk-high {
+            background: #f7e9e7;
+            color: #8a4038;
+        }
+
+        .risk-factors,
+        .risk-recommendations {
+            padding: 26px 32px;
+            border-bottom: 1px solid var(--border, #deded9);
+        }
+
+        .risk-factors h4,
+        .risk-recommendations h4 {
+            margin: 0 0 16px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--navy, #172536);
+        }
+
+        .risk-factor {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 15px 0;
+            border-top: 1px solid var(--border, #deded9);
+        }
+
+        .risk-factor:first-of-type {
+            border-top: none;
+        }
+
+        .risk-factor-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .risk-warning {
+            font-size: 17px;
+        }
+
+        .risk-factor-info strong {
+            display: block;
+            color: var(--text, #202733);
+            font-size: 14px;
+        }
+
+        .risk-factor-info small {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-light, #5f6873);
+            font-size: 12px;
+        }
+
+        .risk-points {
+            flex-shrink: 0;
+            font-weight: 700;
+            color: var(--navy, #172536);
+        }
+
+        .risk-safe-message {
+            padding: 26px 32px;
+            border-bottom: 1px solid var(--border, #deded9);
+            color: #48664d;
+            background: #f5f9f5;
+        }
+
+        .risk-recommendations ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .risk-recommendations li {
+            margin-bottom: 9px;
+            color: var(--text-light, #5f6873);
+            line-height: 1.5;
+        }
+
+        .risk-disclaimer {
+            padding: 20px 32px;
+            color: var(--text-light, #5f6873);
+            background: #fafaf8;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           DOWNLOAD AREA
+           ===================================================== */
+
+        .simplified-report-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .simplified-report-note {
+            margin-right: auto;
+            color: var(--text-light, #5f6873);
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           COMPARISON
+           ===================================================== */
 
         .comparison-workspace {
             margin-top: 32px;
@@ -567,7 +646,81 @@
             background: var(--gold, #b38a48);
         }
 
-        @media (max-width: 760px) {
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .feature-tabs {
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .feature-tab {
+                flex: 1 0 auto;
+                padding: 13px 15px;
+                white-space: nowrap;
+            }
+
+            .simplified-provision {
+                grid-template-columns: 40px 1fr;
+                gap: 14px;
+                padding: 22px;
+            }
+
+            .simplified-provision-number {
+                width: 34px;
+                height: 34px;
+            }
+
+            .simplified-provision-content p {
+                font-size: 14px;
+            }
+
+            .simplified-report-header {
+                padding: 24px;
+            }
+
+            .simplified-report-header h3 {
+                font-size: 26px;
+            }
+
+            .simplified-terms {
+                padding: 24px 21px;
+            }
+
+            .simplified-report-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .simplified-report-note {
+                margin-right: 0;
+            }
+
+            .simplified-report-actions form,
+            .simplified-report-actions .btn {
+                width: 100%;
+            }
+
+            .risk-card .result-card-header {
+                flex-direction: column;
+            }
+
+            .risk-factor {
+                align-items: flex-start;
+            }
+
+            .risk-score-section,
+            .risk-factors,
+            .risk-recommendations,
+            .risk-disclaimer {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
             .comparison-workspace {
                 padding: 22px;
             }
@@ -584,6 +737,7 @@
                 width: 100%;
             }
         }
+
     </style>
 
 </head>
@@ -678,640 +832,1003 @@
 
     <div class="feature-tabs" role="tablist" aria-label="LexiNLP features">
 
-        <button type="button" class="feature-tab active" data-tab="simplify" role="tab" aria-selected="true">
+        <button
+            type="button"
+            class="feature-tab active"
+            data-tab="simplify"
+            role="tab"
+            aria-selected="true"
+        >
             01 · SIMPLIFY CONTRACT
         </button>
 
-        <button type="button" class="feature-tab" data-tab="analysis" role="tab" aria-selected="false">
+        <button
+            type="button"
+            class="feature-tab"
+            data-tab="analysis"
+            role="tab"
+            aria-selected="false"
+        >
             02 · NLP ANALYSIS
         </button>
 
-        <button type="button" class="feature-tab" data-tab="compare" role="tab" aria-selected="false">
+        <button
+            type="button"
+            class="feature-tab"
+            data-tab="compare"
+            role="tab"
+            aria-selected="false"
+        >
             03 · COMPARE CONTRACTS
         </button>
 
     </div>
 
-    <section class="feature-tab-panel active" id="simplifyTab" data-panel="simplify" role="tabpanel">
 
     <!-- =====================================================
-         ANALYZER
+         SIMPLIFY CONTRACT TAB
          ===================================================== -->
 
-    <section class="analyzer-card" id="analyzer">
+    <section
+        class="feature-tab-panel active"
+        id="simplifyTab"
+        data-panel="simplify"
+        role="tabpanel"
+    >
 
-        <div class="card-header">
+        <section class="analyzer-card" id="analyzer">
 
-            <div>
+            <div class="card-header">
 
-                <div class="section-eyebrow">
-                    CONTRACT ANALYZER
-                </div>
+                <div>
 
-                <h2>
-                    Analyze a Legal Contract
-                </h2>
-
-                <p>
-                    Paste your contract or upload a PDF to begin analysis.
-                </p>
-
-            </div>
-
-            <div class="secure-badge">
-                <span>🔒</span>
-                Local Analysis
-            </div>
-
-        </div>
-
-
-        <form
-            method="POST"
-            enctype="multipart/form-data"
-            id="contractForm"
-        >
-
-
-            <!-- =================================================
-                 LANGUAGE
-                 ================================================= -->
-
-            <div class="control-section">
-
-                <label class="control-label">
-                    Analysis Language
-                </label>
-
-                <div class="language-options">
-
-                    <label class="language-option">
-
-                        <input
-                            type="radio"
-                            name="language"
-                            value="english"
-                            {% if language == "english" or not language %}checked{% endif %}
-                        >
-
-                        <span class="language-box">
-
-                            <span class="language-icon">
-                                EN
-                            </span>
-
-                            <span>
-                                <strong>English</strong>
-                                <small>spaCy NLP</small>
-                            </span>
-
-                        </span>
-
-                    </label>
-
-
-                    <label class="language-option">
-
-                        <input
-                            type="radio"
-                            name="language"
-                            value="hindi"
-                            {% if language == "hindi" %}checked{% endif %}
-                        >
-
-                        <span class="language-box">
-
-                            <span class="language-icon hindi-icon">
-                                हि
-                            </span>
-
-                            <span>
-                                <strong>Hindi</strong>
-                                <small>Stanza NLP</small>
-                            </span>
-
-                        </span>
-
-                    </label>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 INPUT METHOD
-                 ================================================= -->
-
-            <div class="control-section">
-
-                <label class="control-label">
-                    Contract Input
-                </label>
-
-                <div class="input-tabs">
-
-                    <label class="input-tab">
-
-                        <input
-                            type="radio"
-                            name="input_method"
-                            value="text"
-                            checked
-                            onchange="switchInput('text')"
-                        >
-
-                        <span>
-                            <span class="tab-icon">▤</span>
-                            Paste Text
-                        </span>
-
-                    </label>
-
-
-                    <label class="input-tab">
-
-                        <input
-                            type="radio"
-                            name="input_method"
-                            value="pdf"
-                            onchange="switchInput('pdf')"
-                        >
-
-                        <span>
-                            <span class="tab-icon">▱</span>
-                            Upload PDF
-                        </span>
-
-                    </label>
-
-                </div>
-
-
-                <!-- TEXT INPUT -->
-
-                <div
-                    id="textInputSection"
-                    class="input-panel"
-                >
-
-                    <div class="textarea-wrapper">
-
-                        <textarea
-                            name="contract_text"
-                            id="contractText"
-                            placeholder="Paste your legal contract here..."
-                        >{{ text }}</textarea>
-
-                        <div class="textarea-footer">
-
-                            <span id="inputStatus">
-                                Ready for analysis
-                            </span>
-
-                            <span>
-
-                                <strong id="wordCount">
-                                    0
-                                </strong>
-
-                                words
-
-                                ·
-
-                                <strong id="charCount">
-                                    0
-                                </strong>
-
-                                characters
-
-                            </span>
-
-                        </div>
-
+                    <div class="section-eyebrow">
+                        CONTRACT ANALYZER
                     </div>
 
-                </div>
-
-
-                <!-- PDF INPUT -->
-
-                <div
-                    id="pdfInputSection"
-                    class="input-panel hidden"
-                >
-
-                    <div
-                        class="upload-zone"
-                        id="uploadZone"
-                    >
-
-                        <div class="upload-icon">
-                            ↑
-                        </div>
-
-                        <h3>
-                            Drop your PDF here
-                        </h3>
-
-                        <p>
-                            or
-                            <span>
-                                browse from your computer
-                            </span>
-                        </p>
-
-                        <small>
-                            PDF files only · Maximum 10 MB
-                        </small>
-
-                        <input
-                            type="file"
-                            id="pdfFile"
-                            name="contract_pdf"
-                            accept=".pdf,application/pdf"
-                            hidden
-                        >
-
-                    </div>
-
-
-                    <div
-                        id="selectedFile"
-                        class="selected-file hidden"
-                    >
-
-                        <div class="file-icon">
-                            PDF
-                        </div>
-
-                        <div class="file-details">
-
-                            <strong id="fileName">
-                                contract.pdf
-                            </strong>
-
-                            <span id="fileSize">
-                                0 KB
-                            </span>
-
-                        </div>
-
-                        <button
-                            type="button"
-                            class="remove-file"
-                            id="removeFile"
-                        >
-                            ×
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =================================================
-                 ACTION BUTTONS
-                 ================================================= -->
-
-            <div class="form-actions">
-
-                <button
-                    type="button"
-                    class="btn-clear"
-                    id="clearButton"
-                >
-                    ↺ Clear
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                    id="analyzeButton"
-                >
-
-                    <span id="buttonText">
-                        Analyze Contract
-                    </span>
-
-                    <span
-                        id="loadingText"
-                        class="hidden"
-                    >
-                        Analyzing...
-                    </span>
-
-                    <span class="button-arrow">
-                        →
-                    </span>
-
-                </button>
-
-            </div>
-
-        </form>
-
-    </section>
-
-
-    {% if results %}
-
-<div class="simplify-result">
-
-    <div class="simplified-report">
-
-        <!-- HEADER -->
-
-        <div class="simplified-report-header">
-
-            <div class="section-eyebrow">
-                PLAIN-LANGUAGE VIEW
-            </div>
-
-            <h3>
-                Contract Made Simpler
-            </h3>
-
-            <p>
-                Key provisions from your contract have been
-                organized into clear, plain-language sections.
-            </p>
-
-        </div>
-
-
-        <!-- SIMPLIFIED PROVISIONS -->
-
-        {% if results["simplified_sections"] %}
-
-        <div class="simplified-provisions">
-
-            {% for section in results["simplified_sections"] %}
-
-            <div class="simplified-provision">
-
-                <div class="simplified-provision-number">
-                    {{ "%02d"|format(loop.index) }}
-                </div>
-
-                <div class="simplified-provision-content">
-
-                    <div class="simplified-provision-title">
-                        {{ section["title"] }}
-                    </div>
+                    <h2>
+                        Analyze a Legal Contract
+                    </h2>
 
                     <p>
-                        {{ section["simplified"] }}
+                        Paste your contract or upload a PDF to begin analysis.
                     </p>
 
                 </div>
 
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-        {% else %}
-
-        <div class="simplified-empty">
-            No simplified provisions could be generated from this contract.
-        </div>
-
-        {% endif %}
-
-
-        <!-- IMPORTANT TERMS -->
-
-        {% if results["keywords"]["keywords"] %}
-
-        <div class="simplified-terms">
-
-            <div class="simplified-terms-header">
-
-                <div class="section-eyebrow">
-                    KEY TERMS
+                <div class="secure-badge">
+                    <span>🔒</span>
+                    Local Analysis
                 </div>
 
-                <h3>
-                    Important Terms at a Glance
-                </h3>
-
-                <p>
-                    Frequently occurring meaningful terms identified
-                    from the contract.
-                </p>
-
             </div>
 
-            <div class="simplified-term-list">
-
-                {% for item in results["keywords"]["keywords"][:8] %}
-
-                <div class="simplified-term">
-
-                    <span>
-                        {{ item["word"] }}
-                    </span>
-
-                    <span class="simplified-term-frequency">
-                        {{ item["frequency"] }}
-                    </span>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
-        </div>
-
-        {% endif %}
-
-
-        <!-- DOWNLOAD REPORT -->
-
-        <div class="simplified-report-actions">
-
-            <span class="simplified-report-note">
-                Save a PDF version of this simplified contract report.
-            </span>
 
             <form
                 method="POST"
-                action="{{ url_for('download_report') }}"
+                enctype="multipart/form-data"
+                id="contractForm"
             >
 
-                <input
-                    type="hidden"
-                    name="contract_text"
-                    value="{{ text }}"
-                >
+                <div class="control-section">
 
-                <input
-                    type="hidden"
-                    name="language"
-                    value="{{ language }}"
-                >
+                    <label class="control-label">
+                        Analysis Language
+                    </label>
 
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    Download Simplified Report
-                    <span class="button-arrow">
-                        ↓
-                    </span>
-                </button>
+                    <div class="language-options">
+
+                        <label class="language-option">
+
+                            <input
+                                type="radio"
+                                name="language"
+                                value="english"
+                                {% if language == "english" or not language %}checked{% endif %}
+                            >
+
+                            <span class="language-box">
+
+                                <span class="language-icon">
+                                    EN
+                                </span>
+
+                                <span>
+                                    <strong>English</strong>
+                                    <small>spaCy NLP</small>
+                                </span>
+
+                            </span>
+
+                        </label>
+
+
+                        <label class="language-option">
+
+                            <input
+                                type="radio"
+                                name="language"
+                                value="hindi"
+                                {% if language == "hindi" %}checked{% endif %}
+                            >
+
+                            <span class="language-box">
+
+                                <span class="language-icon hindi-icon">
+                                    हि
+                                </span>
+
+                                <span>
+                                    <strong>Hindi</strong>
+                                    <small>Stanza NLP</small>
+                                </span>
+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="control-section">
+
+                    <label class="control-label">
+                        Contract Input
+                    </label>
+
+                    <div class="input-tabs">
+
+                        <label class="input-tab">
+
+                            <input
+                                type="radio"
+                                name="input_method"
+                                value="text"
+                                checked
+                                onchange="switchInput('text')"
+                            >
+
+                            <span>
+                                <span class="tab-icon">▤</span>
+                                Paste Text
+                            </span>
+
+                        </label>
+
+
+                        <label class="input-tab">
+
+                            <input
+                                type="radio"
+                                name="input_method"
+                                value="pdf"
+                                onchange="switchInput('pdf')"
+                            >
+
+                            <span>
+                                <span class="tab-icon">▱</span>
+                                Upload PDF
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div
+                        id="textInputSection"
+                        class="input-panel"
+                    >
+
+                        <div class="textarea-wrapper">
+
+                            <textarea
+                                name="contract_text"
+                                id="contractText"
+                                placeholder="Paste your legal contract here..."
+                            >{{ text }}</textarea>
+
+                            <div class="textarea-footer">
+
+                                <span id="inputStatus">
+                                    Ready for analysis
+                                </span>
+
+                                <span>
+
+                                    <strong id="wordCount">
+                                        0
+                                    </strong>
+
+                                    words
+
+                                    ·
+
+                                    <strong id="charCount">
+                                        0
+                                    </strong>
+
+                                    characters
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="pdfInputSection"
+                        class="input-panel hidden"
+                    >
+
+                        <div
+                            class="upload-zone"
+                            id="uploadZone"
+                        >
+
+                            <div class="upload-icon">
+                                ↑
+                            </div>
+
+                            <h3>
+                                Drop your PDF here
+                            </h3>
+
+                            <p>
+                                or
+                                <span>
+                                    browse from your computer
+                                </span>
+                            </p>
+
+                            <small>
+                                PDF files only · Maximum 10 MB
+                            </small>
+
+                            <input
+                                type="file"
+                                id="pdfFile"
+                                name="contract_pdf"
+                                accept=".pdf,application/pdf"
+                                hidden
+                            >
+
+                        </div>
+
+
+                        <div
+                            id="selectedFile"
+                            class="selected-file hidden"
+                        >
+
+                            <div class="file-icon">
+                                PDF
+                            </div>
+
+                            <div class="file-details">
+
+                                <strong id="fileName">
+                                    contract.pdf
+                                </strong>
+
+                                <span id="fileSize">
+                                    0 KB
+                                </span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="remove-file"
+                                id="removeFile"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn-clear"
+                        id="clearButton"
+                    >
+                        ↺ Clear
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="analyzeButton"
+                    >
+
+                        <span id="buttonText">
+                            Analyze Contract
+                        </span>
+
+                        <span
+                            id="loadingText"
+                            class="hidden"
+                        >
+                            Analyzing...
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
 
             </form>
 
+        </section>
+
+
+        <!-- =====================================================
+             SIMPLIFIED RESULTS
+             ===================================================== -->
+
+        {% if results %}
+
+        {% set risk = results.get("risk", {}) %}
+
+        <div class="simplify-result">
+
+            <div class="simplified-report">
+
+                <!-- HEADER -->
+
+                <div class="simplified-report-header">
+
+                    <div class="section-eyebrow">
+                        PLAIN-LANGUAGE VIEW
+                    </div>
+
+                    <h3>
+                        Contract Made Simpler
+                    </h3>
+
+                    <p>
+                        Key provisions from your contract have been
+                        organized into clear, plain-language sections.
+                    </p>
+
+                </div>
+
+
+                <!-- SIMPLIFIED PROVISIONS -->
+
+                {% if language == "english" and results["simplified_sections"] %}
+
+                <div class="simplified-provisions">
+
+                    {% for section in results["simplified_sections"] %}
+
+                    <div class="simplified-provision">
+
+                        <div class="simplified-provision-number">
+                            {{ "%02d"|format(loop.index) }}
+                        </div>
+
+                        <div class="simplified-provision-content">
+
+                            <div class="simplified-provision-title">
+                                {{ section["title"] }}
+                            </div>
+
+                            <p>
+                                {{ section["simplified"] }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% elif language == "english" %}
+
+                <div class="simplified-empty">
+                    No simplified provisions could be generated from this contract.
+                </div>
+
+                {% else %}
+
+                <div class="simplified-empty">
+                    Simplified contract view is currently available for English contracts.
+                </div>
+
+                {% endif %}
+
+
+                <!-- IMPORTANT TERMS -->
+
+                {% if language == "english" and results["keywords"]["keywords"] %}
+
+                <div class="simplified-terms">
+
+                    <div class="simplified-terms-header">
+
+                        <div class="section-eyebrow">
+                            KEY TERMS
+                        </div>
+
+                        <h3>
+                            Important Terms at a Glance
+                        </h3>
+
+                        <p>
+                            Frequently occurring meaningful terms identified
+                            from the contract.
+                        </p>
+
+                    </div>
+
+                    <div class="simplified-term-list">
+
+                        {% for item in results["keywords"]["keywords"][:8] %}
+
+                        <div class="simplified-term">
+
+                            <span>
+                                {{ item["word"] }}
+                            </span>
+
+                            <span class="simplified-term-frequency">
+                                {{ item["frequency"] }}
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- =================================================
+                     CONTRACT RISK ASSESSMENT
+                     ================================================= -->
+
+                {% if risk %}
+
+                <div class="result-card risk-card">
+
+                    <div class="result-card-header">
+
+                        <div>
+
+                            <div class="section-eyebrow">
+
+                                {% if language == "hindi" %}
+                                    अनुबंध जोखिम मूल्यांकन
+                                {% else %}
+                                    CONTRACT RISK ASSESSMENT
+                                {% endif %}
+
+                            </div>
+
+                            <h3>
+
+                                {% if language == "hindi" %}
+                                    संकेतात्मक जोखिम स्तर
+                                {% else %}
+                                    Indicative Risk Level
+                                {% endif %}
+
+                            </h3>
+
+                            <p>
+
+                                {% if language == "hindi" %}
+                                    नियम-आधारित कानूनी NLP विश्लेषण द्वारा
+                                    संभावित रूप से कठोर या प्रतिकूल शर्तों की पहचान।
+                                {% else %}
+                                    Potentially strict or unfavorable clauses
+                                    identified using rule-based legal NLP analysis.
+                                {% endif %}
+
+                            </p>
+
+                        </div>
+
+
+                        <span class="risk-level risk-{{ risk['level']|lower }}">
+
+                            {% if language == "hindi" %}
+
+                                {% if risk["level"] == "Low" %}
+                                    कम जोखिम
+                                {% elif risk["level"] == "Medium" %}
+                                    मध्यम जोखिम
+                                {% else %}
+                                    उच्च जोखिम
+                                {% endif %}
+
+                            {% else %}
+
+                                {{ risk["level"]|upper }} RISK
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- RISK SCORE -->
+
+                    <div class="risk-score-section">
+
+                        <div class="risk-score">
+
+                            <strong>
+                                {{ risk["score"] }}
+                            </strong>
+
+                            <span>
+                                / 100
+                            </span>
+
+                        </div>
+
+                        <div class="risk-score-label">
+
+                            {% if language == "hindi" %}
+                                समग्र जोखिम स्कोर
+                            {% else %}
+                                Overall Risk Score
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RISK FACTORS -->
+
+                    {% if risk["factors"] %}
+
+                    <div class="risk-factors">
+
+                        <h4>
+
+                            {% if language == "hindi" %}
+                                जोखिम कारक
+                            {% else %}
+                                Risk Factors
+                            {% endif %}
+
+                        </h4>
+
+
+                        {% for factor in risk["factors"] %}
+
+                        <div class="risk-factor">
+
+                            <div class="risk-factor-info">
+
+                                <span class="risk-warning">
+                                    ⚠
+                                </span>
+
+                                <div>
+
+                                    <strong>
+
+                                        {% if language == "hindi" %}
+
+                                            {% if factor["name"] == "Automatic Renewal" %}
+                                                स्वचालित नवीनीकरण
+
+                                            {% elif factor["name"] == "Termination Penalty" %}
+                                                समाप्ति दंड
+
+                                            {% elif factor["name"] == "Unlimited Liability" %}
+                                                असीमित दायित्व
+
+                                            {% elif factor["name"] == "Broad Indemnity" %}
+                                                व्यापक क्षतिपूर्ति
+
+                                            {% elif factor["name"] == "Non-Compete Clause" %}
+                                                प्रतिस्पर्धा प्रतिबंध
+
+                                            {% elif factor["name"] == "One-Sided Termination" %}
+                                                एकपक्षीय समाप्ति
+
+                                            {% elif factor["name"] == "Unilateral Modification" %}
+                                                एकपक्षीय संशोधन
+
+                                            {% elif factor["name"] == "Late Payment Penalty" %}
+                                                विलंबित भुगतान दंड
+
+                                            {% elif factor["name"] == "Long Notice Period" %}
+                                                लंबी सूचना अवधि
+
+                                            {% else %}
+                                                {{ factor["name"] }}
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            {{ factor["name"] }}
+
+                                        {% endif %}
+
+                                    </strong>
+
+
+                                    <small>
+
+                                        {% if language == "hindi" %}
+                                            पहचाना गया: {{ factor["matched_text"] }}
+                                        {% else %}
+                                            Detected: {{ factor["matched_text"] }}
+                                        {% endif %}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+
+                            <span class="risk-points">
+                                +{{ factor["points"] }}
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="risk-safe-message">
+
+                        {% if language == "hindi" %}
+                            ✓ कोई प्रमुख पूर्वनिर्धारित जोखिम संकेतक नहीं मिला।
+                        {% else %}
+                            ✓ No major predefined risk indicators were detected.
+                        {% endif %}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- RECOMMENDATIONS -->
+
+                    {% if risk["recommendations"] %}
+
+                    <div class="risk-recommendations">
+
+                        <h4>
+
+                            {% if language == "hindi" %}
+                                समीक्षा सुझाव
+                            {% else %}
+                                Review Suggestions
+                            {% endif %}
+
+                        </h4>
+
+                        <ul>
+
+                            {% for recommendation in risk["recommendations"] %}
+
+                            <li>
+
+                                {% if language == "hindi" %}
+
+                                    {% if loop.index0 < risk["factors"]|length %}
+
+                                        {% set factor = risk["factors"][loop.index0] %}
+
+                                        {% if factor["name"] == "Automatic Renewal" %}
+                                            स्वचालित नवीनीकरण की शर्तों और सूचना आवश्यकताओं की समीक्षा करें।
+                                        {% elif factor["name"] == "Termination Penalty" %}
+                                            अनुबंध समाप्त करने के वित्तीय परिणामों की समीक्षा करें।
+                                        {% elif factor["name"] == "Unlimited Liability" %}
+                                            समीक्षा करें कि दायित्व सीमित या निर्धारित सीमा के भीतर है या नहीं।
+                                        {% elif factor["name"] == "Broad Indemnity" %}
+                                            क्षतिपूर्ति दायित्वों के दायरे की समीक्षा करें।
+                                        {% elif factor["name"] == "Non-Compete Clause" %}
+                                            प्रतिस्पर्धा प्रतिबंध की अवधि और दायरे की समीक्षा करें।
+                                        {% elif factor["name"] == "One-Sided Termination" %}
+                                            समीक्षा करें कि समाप्ति अधिकार दोनों पक्षों के लिए संतुलित हैं या नहीं।
+                                        {% elif factor["name"] == "Unilateral Modification" %}
+                                            समीक्षा करें कि क्या कोई पक्ष बिना सहमति के समझौते को बदल सकता है।
+                                        {% elif factor["name"] == "Late Payment Penalty" %}
+                                            विलंबित भुगतान से संबंधित ब्याज या दंड की समीक्षा करें।
+                                        {% elif factor["name"] == "Long Notice Period" %}
+                                            समीक्षा करें कि सूचना अवधि समझौते के लिए उचित है या नहीं।
+                                        {% else %}
+                                            {{ recommendation }}
+                                        {% endif %}
+
+                                    {% else %}
+                                        {{ recommendation }}
+                                    {% endif %}
+
+                                {% else %}
+                                    {{ recommendation }}
+                                {% endif %}
+
+                            </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- DISCLAIMER -->
+
+                    <div class="risk-disclaimer">
+
+                        <strong>
+
+                            {% if language == "hindi" %}
+                                महत्वपूर्ण:
+                            {% else %}
+                                Important:
+                            {% endif %}
+
+                        </strong>
+
+
+                        {% if language == "hindi" %}
+
+                            यह एक संकेतात्मक NLP-आधारित मूल्यांकन है
+                            जिसका उद्देश्य संभावित रूप से महत्वपूर्ण अनुबंध
+                            शर्तों की पहचान करना है। यह कानूनी सलाह नहीं है
+                            और यह निर्धारित नहीं करता कि अनुबंध कानूनी रूप से सुरक्षित है।
+
+                        {% else %}
+
+                            This is an indicative NLP-based assessment for
+                            identifying potentially important contract terms.
+                            It does not constitute legal advice or determine
+                            whether a contract is legally safe.
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- DOWNLOAD REPORT -->
+
+                <div class="simplified-report-actions">
+
+                    <span class="simplified-report-note">
+
+                        {% if language == "hindi" %}
+                            इस सरल अनुबंध रिपोर्ट का PDF संस्करण सहेजें।
+                        {% else %}
+                            Save a PDF version of this simplified contract report.
+                        {% endif %}
+
+                    </span>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('download_report') }}"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="contract_text"
+                            value="{{ text }}"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="language"
+                            value="{{ language }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+
+                            {% if language == "hindi" %}
+                                सरल रिपोर्ट डाउनलोड करें
+                            {% else %}
+                                Download Simplified Report
+                            {% endif %}
+
+                            <span class="button-arrow">
+                                ↓
+                            </span>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
         </div>
 
-    </div>
+        {% endif %}
 
-</div>
-
-{% endif %}
-
-    
-
-</section>
+    </section>
 
 
     <!-- =====================================================
          COMPARE CONTRACTS TAB
          ===================================================== -->
 
-    <section class="feature-tab-panel" id="compareTab" data-panel="compare" role="tabpanel">
+    <section
+        class="feature-tab-panel"
+        id="compareTab"
+        data-panel="compare"
+        role="tabpanel"
+    >
 
-    <!-- =====================================================
-         CONTRACT COMPARISON
-         ===================================================== -->
+        <section class="comparison-workspace" id="comparison">
 
-    <section class="comparison-workspace" id="comparison">
+            <div class="comparison-intro">
 
-        <div class="comparison-intro">
+                <div class="section-eyebrow">
+                    DOCUMENT COMPARISON
+                </div>
 
-            <div class="section-eyebrow">
-                DOCUMENT COMPARISON
+                <h2>
+                    Compare Two Contracts
+                </h2>
+
+                <p>
+                    Compare two legal documents using TF-IDF and cosine similarity.
+                    Paste the contract text or provide a PDF for each document.
+                </p>
+
             </div>
 
-            <h2>
-                Compare Two Contracts
-            </h2>
+            <form
+                method="POST"
+                action="{{ url_for('compare') }}"
+                enctype="multipart/form-data"
+            >
 
-            <p>
-                Compare two legal documents using TF-IDF and cosine similarity.
-                Paste the contract text or provide a PDF for each document.
-            </p>
+                <div class="comparison-grid">
 
-        </div>
+                    <div class="comparison-panel">
 
-        <form
-            method="POST"
-            action="{{ url_for('compare') }}"
-            enctype="multipart/form-data"
-        >
+                        <h4>
+                            Contract 01
+                        </h4>
 
-            <div class="comparison-grid">
+                        <textarea
+                            name="contract1_text"
+                            placeholder="Paste the first contract here..."
+                        >{{ contract1_text|default('') }}</textarea>
 
-                <div class="comparison-panel">
+                        <label class="comparison-file">
+                            Or upload Contract 01 as PDF
 
-                    <h4>
-                        Contract 01
-                    </h4>
+                            <input
+                                type="file"
+                                name="contract1_pdf"
+                                accept=".pdf,application/pdf"
+                            >
 
-                    <textarea
-                        name="contract1_text"
-                        placeholder="Paste the first contract here..."
-                    >{{ contract1_text|default('') }}</textarea>
+                        </label>
 
-                    <label class="comparison-file">
-                        Or upload Contract 01 as PDF
-                        <input
-                            type="file"
-                            name="contract1_pdf"
-                            accept=".pdf,application/pdf"
-                        >
-                    </label>
+                        <div class="comparison-note">
+                            If both text and PDF are provided, pasted text is used.
+                        </div>
 
-                    <div class="comparison-note">
-                        If both text and PDF are provided, pasted text is used.
+                    </div>
+
+
+                    <div class="comparison-panel">
+
+                        <h4>
+                            Contract 02
+                        </h4>
+
+                        <textarea
+                            name="contract2_text"
+                            placeholder="Paste the second contract here..."
+                        >{{ contract2_text|default('') }}</textarea>
+
+                        <label class="comparison-file">
+                            Or upload Contract 02 as PDF
+
+                            <input
+                                type="file"
+                                name="contract2_pdf"
+                                accept=".pdf,application/pdf"
+                            >
+
+                        </label>
+
+                        <div class="comparison-note">
+                            If both text and PDF are provided, pasted text is used.
+                        </div>
+
                     </div>
 
                 </div>
 
+                <div class="comparison-actions">
 
-                <div class="comparison-panel">
-
-                    <h4>
-                        Contract 02
-                    </h4>
-
-                    <textarea
-                        name="contract2_text"
-                        placeholder="Paste the second contract here..."
-                    >{{ contract2_text|default('') }}</textarea>
-
-                    <label class="comparison-file">
-                        Or upload Contract 02 as PDF
-                        <input
-                            type="file"
-                            name="contract2_pdf"
-                            accept=".pdf,application/pdf"
-                        >
-                    </label>
-
-                    <div class="comparison-note">
-                        If both text and PDF are provided, pasted text is used.
-                    </div>
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Compare Contracts
+                        <span class="button-arrow">→</span>
+                    </button>
 
                 </div>
 
-            </div>
+            </form>
 
-            <div class="comparison-actions">
 
-                <button
-                    type="submit"
-                    class="btn btn-primary"
+            {% if comparison %}
+
+            <div class="comparison-result">
+
+                <div class="section-eyebrow">
+                    SIMILARITY RESULT
+                </div>
+
+                <div class="similarity-score">
+                    {{ comparison.percentage }}%
+                </div>
+
+                <p class="similarity-message">
+                    {{ comparison.message }}
+                </p>
+
+                <div
+                    class="comparison-bar"
+                    aria-label="Contract similarity"
                 >
-                    Compare Contracts
-                    <span class="button-arrow">→</span>
-                </button>
+
+                    <div
+                        class="comparison-bar-fill"
+                        data-percentage="{{ comparison.percentage if comparison else 0 }}"
+                    ></div>
+
+                </div>
 
             </div>
 
-        </form>
+            {% endif %}
 
-        {% if comparison %}
-
-        <div class="comparison-result">
-
-            <div class="section-eyebrow">
-                SIMILARITY RESULT
-            </div>
-
-            <div class="similarity-score">
-                {{ comparison.percentage }}%
-            </div>
-
-            <p class="similarity-message">
-                {{ comparison.message }}
-            </p>
-
-            <div class="comparison-bar" aria-label="Contract similarity">
-                <div class="comparison-bar-fill" data-percentage="{{ comparison.percentage if comparison else 0 }}"></div>
-            </div>
-
-        </div>
-
-        {% endif %}
-
-    </section>
+        </section>
 
     </section>
 
@@ -1320,7 +1837,12 @@
          NLP ANALYSIS TAB
          ===================================================== -->
 
-    <section class="feature-tab-panel" id="analysisTab" data-panel="analysis" role="tabpanel">
+    <section
+        class="feature-tab-panel"
+        id="analysisTab"
+        data-panel="analysis"
+        role="tabpanel"
+    >
 
     {% if results %}
 
@@ -1360,21 +1882,14 @@
 
         {% if language == "english" %}
 
-
-        <!-- =================================================
-             ENGLISH RESULTS
-             ================================================= -->
-
         {% set nlp = results["nlp"] %}
         {% set entities = nlp["entities"] %}
         {% set clauses = results["legal_clauses"] %}
         {% set morphology = results["morphology"] %}
-
         {% set summary = results["summary"] %}
         {% set keywords = results["keywords"] %}
+        {% set risk = results.get("risk", {}) %}
 
-
-        <!-- LANGUAGE BANNER -->
 
         <div class="result-language-banner english-banner">
 
@@ -1396,10 +1911,6 @@
 
         </div>
 
-
-        <!-- =================================================
-             STATS
-             ================================================= -->
 
         <div class="stats-grid">
 
@@ -1489,10 +2000,6 @@
         </div>
 
 
-        <!-- =================================================
-             CONTRACT SUMMARY
-             ================================================= -->
-
         <div class="result-card summary-card">
 
             <div class="result-card-header">
@@ -1548,10 +2055,6 @@
 
         </div>
 
-
-        <!-- =================================================
-             IMPORTANT KEYWORDS
-             ================================================= -->
 
         <div class="result-card keywords-card">
 
@@ -1613,10 +2116,6 @@
         </div>
 
 
-        <!-- =================================================
-            KEYWORD FREQUENCY
-            ================================================= -->
-
         <div
             class="result-card keyword-chart-card"
             id="keywordChartContainer"
@@ -1644,17 +2143,12 @@
 
             </div>
 
+            <div class="keyword-chart-wrapper">
+                <canvas id="keywordFrequencyChart"></canvas>
+            </div>
 
-        <div class="keyword-chart-wrapper">
-            <canvas id="keywordFrequencyChart"></canvas>
         </div>
 
-        </div>
-
-
-        <!-- =================================================
-             LEGAL KEYWORDS
-             ================================================= -->
 
         <div class="result-card legal-keywords-card">
 
@@ -1716,10 +2210,6 @@
         </div>
 
 
-        <!-- =================================================
-             NAMED ENTITY RECOGNITION
-             ================================================= -->
-
         <div class="result-card">
 
             <div class="result-card-header">
@@ -1779,10 +2269,6 @@
 
         </div>
 
-
-        <!-- =================================================
-             LEGAL CLAUSES
-             ================================================= -->
 
         <div class="result-card">
 
@@ -1878,10 +2364,6 @@
         </div>
 
 
-        <!-- =================================================
-             MORPHOLOGICAL ANALYSIS
-             ================================================= -->
-
         <div class="result-card">
 
             <div class="result-card-header morphology-header">
@@ -1927,21 +2409,10 @@
 
                         <tr>
 
-                            <th>
-                                WORD
-                            </th>
-
-                            <th>
-                                LEMMA
-                            </th>
-
-                            <th>
-                                PART OF SPEECH
-                            </th>
-
-                            <th>
-                                MORPHOLOGY
-                            </th>
+                            <th>WORD</th>
+                            <th>LEMMA</th>
+                            <th>PART OF SPEECH</th>
+                            <th>MORPHOLOGY</th>
 
                         </tr>
 
@@ -1986,10 +2457,6 @@
         </div>
 
 
-        <!-- =================================================
-             SOURCE DOCUMENT
-             ================================================= -->
-
         <div class="result-card">
 
             <div class="result-card-header">
@@ -2021,18 +2488,12 @@
 
         {% else %}
 
-
-        <!-- =================================================
-             HINDI RESULTS
-             ================================================= -->
-
         {% set tokens = results["tokens"] %}
         {% set sentences = results["sentences"] %}
         {% set legal_terms = results["legal_terms"] %}
         {% set morphology = results["morphology"] %}
+        {% set risk = results.get("risk", {}) %}
 
-
-        <!-- LANGUAGE BANNER -->
 
         <div class="result-language-banner hindi-banner">
 
@@ -2054,8 +2515,6 @@
 
         </div>
 
-
-        <!-- STATS -->
 
         <div class="stats-grid">
 
@@ -2145,8 +2604,6 @@
         </div>
 
 
-        <!-- LEGAL TERMS -->
-
         <div class="result-card">
 
             <div class="result-card-header">
@@ -2207,8 +2664,6 @@
         </div>
 
 
-        <!-- SENTENCES -->
-
         <div class="result-card">
 
             <div class="result-card-header">
@@ -2255,8 +2710,6 @@
         </div>
 
 
-        <!-- HINDI MORPHOLOGY -->
-
         <div class="result-card">
 
             <div class="result-card-header morphology-header">
@@ -2302,21 +2755,10 @@
 
                         <tr>
 
-                            <th>
-                                WORD
-                            </th>
-
-                            <th>
-                                LEMMA
-                            </th>
-
-                            <th>
-                                PART OF SPEECH
-                            </th>
-
-                            <th>
-                                MORPHOLOGICAL FEATURES
-                            </th>
+                            <th>WORD</th>
+                            <th>LEMMA</th>
+                            <th>PART OF SPEECH</th>
+                            <th>MORPHOLOGICAL FEATURES</th>
 
                         </tr>
 
@@ -2361,8 +2803,6 @@
         </div>
 
 
-        <!-- SOURCE -->
-
         <div class="result-card">
 
             <div class="result-card-header">
@@ -2394,50 +2834,295 @@
 
         {% endif %}
 
-    </section>
+
+        <!-- =================================================
+             HINDI / ENGLISH RISK ASSESSMENT IN NLP TAB
+             ================================================= -->
+
+        {% if risk %}
+
+        <div class="result-card risk-card">
+
+            <div class="result-card-header">
+
+                <div>
+
+                    <div class="section-eyebrow">
+
+                        {% if language == "hindi" %}
+                            अनुबंध जोखिम मूल्यांकन
+                        {% else %}
+                            CONTRACT RISK ASSESSMENT
+                        {% endif %}
+
+                    </div>
+
+                    <h3>
+
+                        {% if language == "hindi" %}
+                            संकेतात्मक जोखिम स्तर
+                        {% else %}
+                            Indicative Risk Level
+                        {% endif %}
+
+                    </h3>
+
+                </div>
+
+                <span class="risk-level risk-{{ risk['level']|lower }}">
+
+                    {% if language == "hindi" %}
+
+                        {% if risk["level"] == "Low" %}
+                            कम जोखिम
+                        {% elif risk["level"] == "Medium" %}
+                            मध्यम जोखिम
+                        {% else %}
+                            उच्च जोखिम
+                        {% endif %}
+
+                    {% else %}
+
+                        {{ risk["level"]|upper }} RISK
+
+                    {% endif %}
+
+                </span>
+
+            </div>
 
 
-    {% else %}
+            <div class="risk-score-section">
+
+                <div class="risk-score">
+
+                    <strong>
+                        {{ risk["score"] }}
+                    </strong>
+
+                    <span>
+                        / 100
+                    </span>
+
+                </div>
+
+                <div class="risk-score-label">
+
+                    {% if language == "hindi" %}
+                        समग्र जोखिम स्कोर
+                    {% else %}
+                        Overall Risk Score
+                    {% endif %}
+
+                </div>
+
+            </div>
 
 
-    <!-- =====================================================
-         EMPTY DASHBOARD
-         ===================================================== -->
+            {% if risk["factors"] %}
 
-    <section class="empty-dashboard">
+            <div class="risk-factors">
 
-        <div class="empty-icon">
-            ⚖
+                <h4>
+
+                    {% if language == "hindi" %}
+                        जोखिम कारक
+                    {% else %}
+                        Risk Factors
+                    {% endif %}
+
+                </h4>
+
+
+                {% for factor in risk["factors"] %}
+
+                <div class="risk-factor">
+
+                    <div class="risk-factor-info">
+
+                        <span class="risk-warning">
+                            ⚠
+                        </span>
+
+                        <div>
+
+                            <strong>
+
+                                {% if language == "hindi" %}
+
+                                    {% if factor["name"] == "Automatic Renewal" %}
+                                        स्वचालित नवीनीकरण
+                                    {% elif factor["name"] == "Termination Penalty" %}
+                                        समाप्ति दंड
+                                    {% elif factor["name"] == "Unlimited Liability" %}
+                                        असीमित दायित्व
+                                    {% elif factor["name"] == "Broad Indemnity" %}
+                                        व्यापक क्षतिपूर्ति
+                                    {% elif factor["name"] == "Non-Compete Clause" %}
+                                        प्रतिस्पर्धा प्रतिबंध
+                                    {% elif factor["name"] == "One-Sided Termination" %}
+                                        एकपक्षीय समाप्ति
+                                    {% elif factor["name"] == "Unilateral Modification" %}
+                                        एकपक्षीय संशोधन
+                                    {% elif factor["name"] == "Late Payment Penalty" %}
+                                        विलंबित भुगतान दंड
+                                    {% elif factor["name"] == "Long Notice Period" %}
+                                        लंबी सूचना अवधि
+                                    {% else %}
+                                        {{ factor["name"] }}
+                                    {% endif %}
+
+                                {% else %}
+
+                                    {{ factor["name"] }}
+
+                                {% endif %}
+
+                            </strong>
+
+                            <small>
+
+                                {% if language == "hindi" %}
+                                    पहचाना गया: {{ factor["matched_text"] }}
+                                {% else %}
+                                    Detected: {{ factor["matched_text"] }}
+                                {% endif %}
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <span class="risk-points">
+                        +{{ factor["points"] }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="risk-safe-message">
+
+                {% if language == "hindi" %}
+                    ✓ कोई प्रमुख पूर्वनिर्धारित जोखिम संकेतक नहीं मिला।
+                {% else %}
+                    ✓ No major predefined risk indicators were detected.
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+
+            {% if risk["recommendations"] %}
+
+            <div class="risk-recommendations">
+
+                <h4>
+
+                    {% if language == "hindi" %}
+                        समीक्षा सुझाव
+                    {% else %}
+                        Review Suggestions
+                    {% endif %}
+
+                </h4>
+
+                <ul>
+
+                    {% for recommendation in risk["recommendations"] %}
+
+                    <li>
+
+                        {% if language == "hindi" %}
+
+                            {% if loop.index0 < risk["factors"]|length %}
+
+                                {% set factor = risk["factors"][loop.index0] %}
+
+                                {% if factor["name"] == "Automatic Renewal" %}
+                                    स्वचालित नवीनीकरण की शर्तों और सूचना आवश्यकताओं की समीक्षा करें।
+                                {% elif factor["name"] == "Termination Penalty" %}
+                                    अनुबंध समाप्त करने के वित्तीय परिणामों की समीक्षा करें।
+                                {% elif factor["name"] == "Unlimited Liability" %}
+                                    समीक्षा करें कि दायित्व सीमित या निर्धारित सीमा के भीतर है या नहीं।
+                                {% elif factor["name"] == "Broad Indemnity" %}
+                                    क्षतिपूर्ति दायित्वों के दायरे की समीक्षा करें।
+                                {% elif factor["name"] == "Non-Compete Clause" %}
+                                    प्रतिस्पर्धा प्रतिबंध की अवधि और दायरे की समीक्षा करें।
+                                {% elif factor["name"] == "One-Sided Termination" %}
+                                    समीक्षा करें कि समाप्ति अधिकार दोनों पक्षों के लिए संतुलित हैं या नहीं।
+                                {% elif factor["name"] == "Unilateral Modification" %}
+                                    समीक्षा करें कि क्या कोई पक्ष बिना सहमति के समझौते को बदल सकता है।
+                                {% elif factor["name"] == "Late Payment Penalty" %}
+                                    विलंबित भुगतान से संबंधित ब्याज या दंड की समीक्षा करें।
+                                {% elif factor["name"] == "Long Notice Period" %}
+                                    समीक्षा करें कि सूचना अवधि समझौते के लिए उचित है या नहीं।
+                                {% else %}
+                                    {{ recommendation }}
+                                {% endif %}
+
+                            {% else %}
+
+                                {{ recommendation }}
+
+                            {% endif %}
+
+                        {% else %}
+
+                            {{ recommendation }}
+
+                        {% endif %}
+
+                    </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="risk-disclaimer">
+
+                <strong>
+
+                    {% if language == "hindi" %}
+                        महत्वपूर्ण:
+                    {% else %}
+                        Important:
+                    {% endif %}
+
+                </strong>
+
+                {% if language == "hindi" %}
+
+                    यह एक संकेतात्मक NLP-आधारित मूल्यांकन है
+                    जिसका उद्देश्य संभावित रूप से महत्वपूर्ण अनुबंध
+                    शर्तों की पहचान करना है। यह कानूनी सलाह नहीं है
+                    और यह निर्धारित नहीं करता कि अनुबंध कानूनी रूप से सुरक्षित है।
+
+                {% else %}
+
+                    This is an indicative NLP-based assessment for
+                    identifying potentially important contract terms.
+                    It does not constitute legal advice or determine
+                    whether a contract is legally safe.
+
+                {% endif %}
+
+            </div>
+
         </div>
 
-        <div class="section-eyebrow">
-            DOCUMENT WORKSPACE
-        </div>
-
-        <h3>
-            Your contract analysis will appear here.
-        </h3>
-
-        <p>
-            Submit a document above to examine its language,
-            structure and legally relevant terms.
-        </p>
-
-        <div class="empty-points">
-
-            <span>
-                01 — Entities
-            </span>
-
-            <span>
-                02 — Clauses
-            </span>
-
-            <span>
-                03 — Linguistics
-            </span>
-
-        </div>
+        {% endif %}
 
     </section>
 
@@ -2884,6 +3569,7 @@ if (removeFile) {
 /* =========================================================
    CLEAR
    ========================================================= */
+
 const clearButton =
     document.getElementById("clearButton");
 
@@ -2893,16 +3579,15 @@ if (clearButton) {
         "click",
         function(event) {
 
-            // Prevent the button from submitting the form
             event.preventDefault();
 
-            // Start with a completely fresh page
             window.location.href = "/";
 
         }
     );
 
 }
+
 
 /* =========================================================
    FORM SUBMIT
@@ -3123,14 +3808,6 @@ if (analyzeAnother) {
 
 
 /* =========================================================
-   RESULTS SCROLL
-   ========================================================= */
-
-// Results are kept on the NLP Analysis tab so the user can
-// choose when to open the detailed linguistic analysis.
-
-
-/* =========================================================
    KEYWORD FREQUENCY CHART
    ========================================================= */
 
@@ -3196,6 +3873,7 @@ if (
                         grid: {
                             display: false
                         },
+
                         ticks: {
                             font: {
                                 family: "DM Sans",
@@ -3206,6 +3884,7 @@ if (
 
                     y: {
                         beginAtZero: true,
+
                         ticks: {
                             precision: 0
                         }
@@ -3214,10 +3893,12 @@ if (
                 }
 
             }
+
         }
     );
 
 }
+
 </script>
 
 </body>

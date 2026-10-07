@@ -454,6 +454,347 @@ def create_simplified_report(text, language, analyzer_results):
 
             story.append(table)
 
+
+    # =========================================================
+    # CONTRACT RISK ASSESSMENT
+    # =========================================================
+
+    if language == "english":
+
+        risk = analyzer_results.get(
+            "risk",
+            {}
+        )
+
+        risk_score = risk.get(
+            "score",
+            0
+        )
+
+        risk_level = risk.get(
+            "level",
+            "Low"
+        )
+
+        risk_factors = risk.get(
+            "factors",
+            []
+        )
+
+        recommendations = risk.get(
+            "recommendations",
+            []
+        )
+
+        story.append(
+            Spacer(1, 7 * mm)
+        )
+
+        story.append(
+            Paragraph(
+                "CONTRACT RISK ASSESSMENT",
+                heading_style,
+            )
+        )
+
+        story.append(
+            Paragraph(
+                "An indicative assessment of potentially strict "
+                "or unfavorable contract clauses identified using "
+                "rule-based legal NLP analysis.",
+                small_style,
+            )
+        )
+
+        story.append(
+            Spacer(1, 3 * mm)
+        )
+
+        # -----------------------------------------------------
+        # SCORE TABLE
+        # -----------------------------------------------------
+
+        level_colors = {
+            "Low": "#3F6B50",
+            "Medium": "#9A7028",
+            "High": "#9B4D43",
+        }
+
+        level_color = level_colors.get(
+            risk_level,
+            "#172536"
+        )
+
+        score_table = Table(
+            [[
+                Paragraph(
+                    f"<b>{risk_score}</b> / 100",
+                    body_style,
+                ),
+                Paragraph(
+                    f"<b>{risk_level.upper()} RISK</b>",
+                    body_style,
+                ),
+            ]],
+            colWidths=[
+                82 * mm,
+                78 * mm,
+            ],
+        )
+
+        score_table.setStyle(
+            TableStyle([
+                (
+                    "BACKGROUND",
+                    (0, 0),
+                    (-1, -1),
+                    colors.HexColor("#F8F8F6"),
+                ),
+                (
+                    "TEXTCOLOR",
+                    (0, 0),
+                    (0, 0),
+                    colors.HexColor("#172536"),
+                ),
+                (
+                    "TEXTCOLOR",
+                    (1, 0),
+                    (1, 0),
+                    colors.HexColor(level_color),
+                ),
+                (
+                    "BOX",
+                    (0, 0),
+                    (-1, -1),
+                    0.7,
+                    colors.HexColor("#DEDED9"),
+                ),
+                (
+                    "VALIGN",
+                    (0, 0),
+                    (-1, -1),
+                    "MIDDLE",
+                ),
+                (
+                    "LEFTPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    10,
+                ),
+                (
+                    "RIGHTPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    10,
+                ),
+                (
+                    "TOPPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    10,
+                ),
+                (
+                    "BOTTOMPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    10,
+                ),
+            ])
+        )
+
+        story.append(score_table)
+
+
+        # -----------------------------------------------------
+        # RISK FACTORS
+        # -----------------------------------------------------
+
+        if risk_factors:
+
+            story.append(
+                Spacer(1, 5 * mm)
+            )
+
+            story.append(
+                Paragraph(
+                    "IDENTIFIED RISK FACTORS",
+                    section_title_style,
+                )
+            )
+
+            risk_data = [
+                [
+                    "Risk Factor",
+                    "Detected Term",
+                    "Points",
+                ]
+            ]
+
+            for factor in risk_factors:
+
+                risk_data.append([
+                    str(
+                        factor.get(
+                            "name",
+                            ""
+                        )
+                    ),
+                    str(
+                        factor.get(
+                            "matched_text",
+                            ""
+                        )
+                    ),
+                    f"+{factor.get('points', 0)}",
+                ])
+
+            risk_table = Table(
+                risk_data,
+                colWidths=[
+                    70 * mm,
+                    75 * mm,
+                    20 * mm,
+                ],
+                repeatRows=1,
+            )
+
+            risk_table.setStyle(
+                TableStyle([
+                    (
+                        "BACKGROUND",
+                        (0, 0),
+                        (-1, 0),
+                        colors.HexColor("#172536"),
+                    ),
+                    (
+                        "TEXTCOLOR",
+                        (0, 0),
+                        (-1, 0),
+                        colors.white,
+                    ),
+                    (
+                        "FONTNAME",
+                        (0, 0),
+                        (-1, -1),
+                        font_name,
+                    ),
+                    (
+                        "FONTSIZE",
+                        (0, 0),
+                        (-1, -1),
+                        8.5,
+                    ),
+                    (
+                        "GRID",
+                        (0, 0),
+                        (-1, -1),
+                        0.4,
+                        colors.HexColor("#DEDED9"),
+                    ),
+                    (
+                        "BACKGROUND",
+                        (0, 1),
+                        (-1, -1),
+                        colors.HexColor("#F8F8F6"),
+                    ),
+                    (
+                        "VALIGN",
+                        (0, 0),
+                        (-1, -1),
+                        "MIDDLE",
+                    ),
+                    (
+                        "TOPPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        7,
+                    ),
+                    (
+                        "BOTTOMPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        7,
+                    ),
+                    (
+                        "LEFTPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        6,
+                    ),
+                    (
+                        "RIGHTPADDING",
+                        (0, 0),
+                        (-1, -1),
+                        6,
+                    ),
+                ])
+            )
+
+            story.append(risk_table)
+
+        else:
+
+            story.append(
+                Spacer(1, 4 * mm)
+            )
+
+            story.append(
+                Paragraph(
+                    "No major predefined risk indicators "
+                    "were detected.",
+                    body_style,
+                )
+            )
+
+
+        # -----------------------------------------------------
+        # REVIEW SUGGESTIONS
+        # -----------------------------------------------------
+
+        if recommendations:
+
+            story.append(
+                Spacer(1, 5 * mm)
+            )
+
+            story.append(
+                Paragraph(
+                    "REVIEW SUGGESTIONS",
+                    section_title_style,
+                )
+            )
+
+            for recommendation in recommendations:
+
+                story.append(
+                    Paragraph(
+                        f"• {recommendation}",
+                        body_style,
+                    )
+                )
+
+
+        # -----------------------------------------------------
+        # RISK DISCLAIMER
+        # -----------------------------------------------------
+
+        story.append(
+            Spacer(1, 3 * mm)
+        )
+
+        story.append(
+            Paragraph(
+                "<b>Risk assessment disclaimer:</b> "
+                "This is an indicative NLP-based assessment "
+                "intended to identify potentially important "
+                "contract terms. It does not constitute legal "
+                "advice or determine whether a contract is "
+                "legally safe.",
+                small_style,
+            )
+        )
+
+
     else:
 
         legal_terms = analyzer_results.get(

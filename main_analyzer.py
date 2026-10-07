@@ -7,6 +7,7 @@ from linguistic_analyzer import analyze_linguistics
 from keyword_analyzer import analyze_keywords
 from summarizer import analyze_summary
 from simplifier import simplify_contract
+from risk_analyzer import analyze_contract_risk
 
 # --------------------------------------------------
 # ENGLISH CONTRACT ANALYSIS
@@ -40,6 +41,9 @@ def analyze_english_contract(text):
         nlp_results["sentences"]
     )
 
+    # Contract risk assessment
+    risk_results = analyze_contract_risk(text)
+
     return {
         "nlp": nlp_results,
         "legal_clauses": legal_results,
@@ -48,7 +52,8 @@ def analyze_english_contract(text):
         "linguistics": linguistic_results,
         "keywords": keyword_results,
         "summary": summary_results,
-        "simplified_sections": simplified_sections
+        "simplified_sections": simplified_sections,
+        "risk": risk_results
     }
 
 

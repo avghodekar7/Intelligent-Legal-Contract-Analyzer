@@ -1,5 +1,6 @@
 import re
 import stanza
+from risk_analyzer import analyze_contract_risk
 
 
 # --------------------------------------------------
@@ -131,15 +132,34 @@ def analyze_hindi_nlp(text):
 
 def analyze_hindi(text):
 
+    # ----------------------------------------------
+    # NLP ANALYSIS
+    # ----------------------------------------------
+
     nlp_results = analyze_hindi_nlp(text)
 
+    # ----------------------------------------------
+    # LEGAL TERM DETECTION
+    # ----------------------------------------------
+
     legal_terms = detect_hindi_legal_terms(text)
+
+    # ----------------------------------------------
+    # CONTRACT RISK ANALYSIS
+    # ----------------------------------------------
+
+    risk_results = analyze_contract_risk(text)
+
+    # ----------------------------------------------
+    # FINAL RESULT
+    # ----------------------------------------------
 
     return {
         "tokens": nlp_results["tokens"],
         "sentences": nlp_results["sentences"],
         "legal_terms": legal_terms,
-        "morphology": nlp_results["morphology"]
+        "morphology": nlp_results["morphology"],
+        "risk": risk_results
     }
 
 
@@ -186,3 +206,46 @@ if __name__ == "__main__":
             f"POS: {item['pos']} | "
             f"Morphology: {item['morphology']}"
         )
+
+    print("\n========== HINDI CONTRACT RISK ==========")
+
+    print(
+        f"Risk Score: {result['risk']['score']}/100"
+    )
+
+    print(
+        f"Risk Level: {result['risk']['level']}"
+    )
+
+    print("\nRisk Factors:")
+
+    if result["risk"]["factors"]:
+
+        for factor in result["risk"]["factors"]:
+
+            print(
+                f"- {factor['name']} "
+                f"(+{factor['points']})"
+            )
+
+            print(
+                f"  Detected: {factor['matched_text']}"
+            )
+
+    else:
+
+        print("- No predefined risk indicators detected.")
+
+    print("\nRecommendations:")
+
+    if result["risk"]["recommendations"]:
+
+        for recommendation in result["risk"]["recommendations"]:
+
+            print(
+                f"- {recommendation}"
+            )
+
+    else:
+
+        print("- No specific recommendations.")
