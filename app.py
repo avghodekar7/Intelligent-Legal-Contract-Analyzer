@@ -207,7 +207,7 @@ def download_report():
     return send_file(
         report,
         as_attachment=True,
-        download_name="LexiNLP_Simplified_Contract_Report.pdf",
+        download_name="LegalLens_Simplified_Contract_Report.pdf",
         mimetype="application/pdf"
     )
 
