@@ -200,9 +200,8 @@
            ===================================================== */
 
         .simplified-provisions {
-            border: 1px solid var(--border, #deded9);
-            border-top: none;
-            background: #ffffff;
+            display: grid;
+            gap: 14px;
         }
 
         .simplified-provision {
@@ -210,13 +209,10 @@
             grid-template-columns: 52px 1fr;
             gap: 20px;
 
-            padding: 28px 32px;
+            padding: 24px 28px;
 
-            border-top: 1px solid var(--border, #deded9);
-        }
-
-        .simplified-provision:first-child {
-            border-top: none;
+            border: 1px solid var(--border, #deded9);
+            background: #ffffff;
         }
 
         .simplified-provision:hover {
@@ -243,24 +239,36 @@
         }
 
         .simplified-provision-title {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
 
-            color: var(--gold, #b38a48);
+            color: var(--navy, #172536);
 
-            font-size: 11px;
+            font-family: "Playfair Display", Georgia, serif;
+            font-size: 19px;
             font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
         }
 
-        .simplified-provision-content p {
+        .simplified-provision-points {
             margin: 0;
+            padding-left: 20px;
 
             color: var(--text, #202733);
 
             font-family: "DM Sans", sans-serif;
             font-size: 15px;
             line-height: 1.7;
+        }
+
+        .simplified-provision-points li {
+            padding-left: 4px;
+        }
+
+        .simplified-provision-points li + li {
+            margin-top: 8px;
+        }
+
+        .simplified-provision-points li::marker {
+            color: var(--gold, #b38a48);
         }
 
         /* =====================================================
@@ -674,7 +682,7 @@
                 height: 34px;
             }
 
-            .simplified-provision-content p {
+            .simplified-provision-points {
                 font-size: 14px;
             }
 
@@ -1227,9 +1235,25 @@
 
                 <div class="simplified-provisions">
 
-                    {% for section in results["simplified_sections"] %}
+                    {% set grouped = namespace(groups=[]) %}
 
-                    <div class="simplified-provision">
+                    {% for section in results["simplified_sections"] %}
+                        {% set match = namespace(group=none) %}
+                        {% for group in grouped.groups %}
+                            {% if group.title == section["title"] %}
+                                {% set match.group = group %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if match.group %}
+                            {% set _ = match.group.sections.append(section) %}
+                        {% else %}
+                            {% set new_group = namespace(title=section["title"], sections=[section]) %}
+                            {% set _ = grouped.groups.append(new_group) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for group in grouped.groups %}
+                    <section class="simplified-provision">
 
                         <div class="simplified-provision-number">
                             {{ "%02d"|format(loop.index) }}
@@ -1238,16 +1262,18 @@
                         <div class="simplified-provision-content">
 
                             <div class="simplified-provision-title{% if language == 'hindi' %} hindi-text{% endif %}">
-                                {{ section["title"] }}
+                                {{ group.title }}
                             </div>
 
-                            <p{% if language == "hindi" %} class="hindi-text"{% endif %}>
-                                {{ section["simplified"] }}
-                            </p>
+                            <ul class="simplified-provision-points{% if language == 'hindi' %} hindi-text{% endif %}">
+                                {% for section in group.sections %}
+                                <li>{{ section["simplified"] }}</li>
+                                {% endfor %}
+                            </ul>
 
                         </div>
 
-                    </div>
+                    </section>
 
                     {% endfor %}
 
