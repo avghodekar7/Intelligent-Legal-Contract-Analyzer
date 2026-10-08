@@ -32,7 +32,8 @@ The system supports **English and Hindi contracts** and provides structured anal
 ### Contract Understanding
 
 - Contract summarization
-- Contract simplification
+- Rule-based plain-language contract simplification for English and Hindi
+- Important contract terms at a glance for English and Hindi
 - Important clause identification
 - Notice period detection
 - Contract comparison

@@ -1194,16 +1194,28 @@
                 <div class="simplified-report-header">
 
                     <div class="section-eyebrow">
-                        PLAIN-LANGUAGE VIEW
+                        {% if language == "hindi" %}
+                            सरल भाषा में
+                        {% else %}
+                            PLAIN-LANGUAGE VIEW
+                        {% endif %}
                     </div>
 
                     <h3>
-                        Contract Made Simpler
+                        {% if language == "hindi" %}
+                            अनुबंध को सरल बनाया गया
+                        {% else %}
+                            Contract Made Simpler
+                        {% endif %}
                     </h3>
 
                     <p>
-                        Key provisions from your contract have been
-                        organized into clear, plain-language sections.
+                        {% if language == "hindi" %}
+                            अनुबंध की मुख्य शर्तों को सरल हिंदी में समझाया गया है।
+                        {% else %}
+                            Key provisions from your contract have been
+                            organized into clear, plain-language sections.
+                        {% endif %}
                     </p>
 
                 </div>
@@ -1211,7 +1223,7 @@
 
                 <!-- SIMPLIFIED PROVISIONS -->
 
-                {% if language == "english" and results["simplified_sections"] %}
+                {% if results.get("simplified_sections") %}
 
                 <div class="simplified-provisions">
 
@@ -1225,11 +1237,11 @@
 
                         <div class="simplified-provision-content">
 
-                            <div class="simplified-provision-title">
+                            <div class="simplified-provision-title{% if language == 'hindi' %} hindi-text{% endif %}">
                                 {{ section["title"] }}
                             </div>
 
-                            <p>
+                            <p{% if language == "hindi" %} class="hindi-text"{% endif %}>
                                 {{ section["simplified"] }}
                             </p>
 
@@ -1249,8 +1261,8 @@
 
                 {% else %}
 
-                <div class="simplified-empty">
-                    Simplified contract view is currently available for English contracts.
+                <div class="simplified-empty hindi-text">
+                    इस अनुबंध से सरल शर्तें नहीं बनाई जा सकीं।
                 </div>
 
                 {% endif %}
@@ -1258,40 +1270,65 @@
 
                 <!-- IMPORTANT TERMS -->
 
-                {% if language == "english" and results["keywords"]["keywords"] %}
+                {% if (language == "english" and results.get("keywords", {}).get("keywords"))
+                    or (language == "hindi" and results.get("legal_terms")) %}
 
                 <div class="simplified-terms">
 
                     <div class="simplified-terms-header">
 
                         <div class="section-eyebrow">
-                            KEY TERMS
+                            {% if language == "hindi" %}
+                                मुख्य शब्द
+                            {% else %}
+                                KEY TERMS
+                            {% endif %}
                         </div>
 
                         <h3>
-                            Important Terms at a Glance
+                            {% if language == "hindi" %}
+                                महत्वपूर्ण शब्द एक नज़र में
+                            {% else %}
+                                Important Terms at a Glance
+                            {% endif %}
                         </h3>
 
                         <p>
-                            Frequently occurring meaningful terms identified
-                            from the contract.
+                            {% if language == "hindi" %}
+                                अनुबंध में मिले महत्वपूर्ण कानूनी शब्द।
+                            {% else %}
+                                Frequently occurring meaningful terms identified
+                                from the contract.
+                            {% endif %}
                         </p>
 
                     </div>
 
                     <div class="simplified-term-list">
 
-                        {% for item in results["keywords"]["keywords"][:8] %}
+                        {% if language == "english" %}
+                        {% set important_terms = results["keywords"]["keywords"][:8] %}
+                        {% else %}
+                        {% set important_terms = results["legal_terms"][:8] %}
+                        {% endif %}
+
+                        {% for item in important_terms %}
 
                         <div class="simplified-term">
 
-                            <span>
-                                {{ item["word"] }}
+                            <span{% if language == "hindi" %} class="hindi-text"{% endif %}>
+                                {% if language == "english" %}
+                                    {{ item["word"] }}
+                                {% else %}
+                                    {{ item["text"] }}
+                                {% endif %}
                             </span>
 
+                            {% if language == "english" %}
                             <span class="simplified-term-frequency">
-                                {{ item["frequency"] }}
+                                    {{ item["frequency"] }}
                             </span>
+                            {% endif %}
 
                         </div>
 
